@@ -1,376 +1,357 @@
-/* ============================================================================
-   POLICY PREFERENCES LAB — SITE DATA
-   ============================================================================
-   This file drives the whole site. Edit here and everything updates:
-   the interactive map, the stats in the hero, the featured-research cards,
-   and the full catalogue on research.html.
+/* Policy Preferences Lab — homepage interactivity.
+   Everything renders from LAB (js/data.js). No edits needed here. */
 
-   HOW TO ADD A STUDY
-   ------------------
-   Copy any block below and change the fields:
-     id        unique slug, no spaces
-     title     full paper title
-     authors   author string as you want it displayed
-     outlet    journal or series ("Journal of Development Economics",
-               "World Bank Policy Research Working Paper", ...)
-     year      display year (number)
-     status    "publication" | "working-paper" | "in-progress"
-     themes    one or two from THEMES below
-     url       link to the paper, or null if none yet
-     countries array of ISO3 codes where data was collected (drives the map).
-               Leave [] for global/desk studies — they appear in the
-               catalogue but not on the map.
-     sample    short line about the data, or null
-     featured  true to show on the homepage (aim for 5–6 featured)
+(function () {
+  "use strict";
 
-   ISO3 codes must match the map. Common ones used here:
-   AGO Angola · ARG Argentina · AUS Australia · BGD Bangladesh · BOL Bolivia
-   BRA Brazil · COL Colombia · ECU Ecuador · EGY Egypt · ESP Spain · FJI Fiji
-   GBR United Kingdom · GHA Ghana · IDN Indonesia · IND India · JOR Jordan
-   KAZ Kazakhstan · KEN Kenya · LKA Sri Lanka · MEX Mexico · NGA Nigeria
-   NLD Netherlands · PAK Pakistan · PNG Papua New Guinea · TZA Tanzania
-   USA United States · VNM Vietnam · ZAF South Africa · ZMB Zambia
-   ========================================================================= */
+  /* ---------- derive country → studies and theme → studies ---------- */
+  const byCountry = {};
+  const byTheme = {};
+  const themeCountries = {};
+  LAB.studies.forEach(function (s) {
+    (s.countries || []).forEach(function (iso) {
+      (byCountry[iso] = byCountry[iso] || []).push(s);
+    });
+    (s.themes || []).forEach(function (t) {
+      (byTheme[t] = byTheme[t] || []).push(s);
+      themeCountries[t] = themeCountries[t] || {};
+      (s.countries || []).forEach(function (iso) { themeCountries[t][iso] = true; });
+    });
+  });
+  Object.values(byCountry).concat(Object.values(byTheme)).forEach(function (list) {
+    list.sort(function (a, b) { return b.year - a.year || a.title.localeCompare(b.title); });
+  });
+  const activeISOs = Object.keys(byCountry);
 
-const LAB = {
+  function countryName(iso) {
+    if (LAB.countryNames[iso]) return LAB.countryNames[iso];
+    const p = document.querySelector('#worldmap .c[data-iso="' + iso + '"]');
+    return p ? p.getAttribute("data-name") : iso;
+  }
 
-  // Shown in the hero. Studies and countries are counted automatically;
-  // this figure is set by hand — update as new rounds are fielded.
-  respondentsLabel: "200,000+",
+  function esc(str) {
+    return String(str).replace(/[&<>"]/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch];
+    });
+  }
 
-  // Hero stat labels shown on the homepage (override the auto-computed counts).
-  stats: { countries: "40+", respondents: "250,000+", studies: "22+" },
+  /* ---------- hero stats (LAB.stats labels win over computed counts) ---------- */
+  const ov = LAB.stats || {};
+  const stats = {
+    studies: ov.studies || LAB.studies.length,
+    countries: ov.countries || activeISOs.length,
+    respondents: ov.respondents || LAB.respondentsLabel
+  };
+  const noMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function countUp(el, finalText) {
+    const m = String(finalText).match(/^([\d,]+)(.*)$/);
+    if (!m || noMotion || !window.requestAnimationFrame) { el.textContent = finalText; return; }
+    const target = parseInt(m[1].replace(/,/g, ""), 10);
+    const suffix = m[2] || "";
+    const t0 = performance.now(), dur = 900;
+    (function tick(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased).toLocaleString("en-US") + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  document.querySelectorAll("[data-stat]").forEach(function (el) {
+    countUp(el, stats[el.getAttribute("data-stat")]);
+  });
 
-  themes: ["Taxes", "Redistribution & inequality", "Subsidies", "Poverty & wellbeing"],
+  /* ---------- news (only if the theme includes a news list) ---------- */
+  const newsEl = document.getElementById("newslist");
+  if (newsEl) {
+    newsEl.innerHTML = LAB.news.map(function (n) {
+      const body = n.url
+        ? '<a href="' + esc(n.url) + '">' + esc(n.text) + "</a>"
+        : esc(n.text);
+      return '<li><span class="n-date">' + esc(n.date) + "</span><span>" + body + "</span></li>";
+    }).join("");
+  }
 
-  // Country display names for chips and the map panel (ISO3 → name).
-  countryNames: {
-    AGO: "Angola", ARG: "Argentina", AUS: "Australia", BGD: "Bangladesh",
-    BOL: "Bolivia", BRA: "Brazil", COL: "Colombia", ECU: "Ecuador",
-    EGY: "Egypt", ESP: "Spain", FJI: "Fiji", FRA: "France",
-    GBR: "United Kingdom", GHA: "Ghana", IDN: "Indonesia", IND: "India",
-    JOR: "Jordan", JPN: "Japan", KAZ: "Kazakhstan", KEN: "Kenya",
-    LKA: "Sri Lanka", MAR: "Morocco", MEX: "Mexico", MNG: "Mongolia",
-    NGA: "Nigeria", NLD: "Netherlands", NZL: "New Zealand", PAK: "Pakistan",
-    PHL: "Philippines", PNG: "Papua New Guinea", SLB: "Solomon Islands", SOM: "Somalia", SWE: "Sweden", TZA: "Tanzania",
-    USA: "United States", UZB: "Uzbekistan", VNM: "Vietnam", ZAF: "South Africa",
-    ZMB: "Zambia"
-  },
+  /* ---------- featured research cards ---------- */
+  const cardsEl = document.getElementById("featuredcards");
+  if (cardsEl) {
+    const featured = LAB.studies.filter(function (s) { return s.featured; })
+      .sort(function (a, b) { return b.year - a.year; });
+    cardsEl.innerHTML = featured.map(function (s) {
+      const codes = (s.countries || []);
+      const shown = codes.slice(0, 4).join(" · ");
+      const extra = codes.length > 4 ? " · +" + (codes.length - 4) : "";
+      const cline = codes.length
+        ? '<div class="c-countries"><b>' + shown + extra + "</b></div>"
+        : '<div class="c-countries">Global analysis</div>';
+      const title = s.url
+        ? '<a href="' + esc(s.url) + '">' + esc(s.title) + "</a>"
+        : esc(s.title);
+      return (
+        '<article class="card">' +
+        '<div class="c-theme">' + esc((s.themes || [])[0] || "Research") + "</div>" +
+        "<h3>" + title + "</h3>" +
+        '<div class="c-authors">' + esc(s.authors) + "</div>" +
+        '<div class="c-outlet"><em>' + esc(s.outlet) + "</em> · " + s.year + "</div>" +
+        cline +
+        "</article>"
+      );
+    }).join("");
+  }
 
-  // Homepage news strip — keep to the 3–4 most recent items.
-  news: [
-    {
-      date: "2026",
-      text: "“Attitudes towards reducing fossil fuel subsidies” is published in the Journal of Development Economics.",
-      url: "https://www.sciencedirect.com/science/article/pii/S0304387825001634"
-    },
-    {
-      date: "2026",
-      text: "The Policy Preferences Lab launches — team, openings, and data resources to be announced here.",
-      url: null
-    },
-    {
-      date: "2025",
-      text: "Christopher Hoy is awarded the Sir Tony Atkinson Prize by the Society for the Study of Economic Inequality.",
-      url: null
+  /* ---------- the map ---------- */
+  const svg = document.getElementById("worldmap");
+  const themesEl = document.getElementById("themesrow");
+  if (!svg) {
+    /* still render the themes strip on pages without a map */
+    if (themesEl) {
+      themesEl.innerHTML = LAB.themes.map(function (t) {
+        return '<span class="theme-tag">' + esc(t) + "</span>";
+      }).join("");
     }
-  ],
+    return;
+  }
+  const frame = svg.closest(".mapframe");
+  const tip = document.getElementById("maptip");
+  const panel = document.getElementById("mappanel");
+  const chipsEl = document.getElementById("chips");
+  const themeFilterEl = document.getElementById("themefilter");
+  let selected = null;
+  let selTheme = null;
 
-  studies: [
+  const MICRO_AREA = 60; // px² bbox threshold below which a marker dot is added
 
-    /* ---------------- Peer-reviewed publications ---------------- */
+  activeISOs.forEach(function (iso) {
+    const path = svg.querySelector('.c[data-iso="' + iso + '"]');
+    if (!path) return;
+    path.classList.add("active");
+    path.setAttribute("tabindex", "0");
+    path.setAttribute("role", "button");
+    path.setAttribute("aria-label",
+      countryName(iso) + ": " + byCountry[iso].length +
+      (byCountry[iso].length === 1 ? " study" : " studies"));
 
-    {
-      id: "fossil-fuel-subsidies",
-      title: "Attitudes towards reducing fossil fuel subsidies: Evidence across 12 middle-income countries",
-      authors: "Christopher Hoy, Yeon Soo Kim, Minh Cong Nguyen, Mariano Sosa & Sailesh Tiwari",
-      outlet: "Journal of Development Economics",
-      year: 2026,
-      status: "publication",
-      themes: ["Subsidies"],
-      url: "https://www.sciencedirect.com/science/article/pii/S0304387825001634",
-      countries: ["AGO","ARG","BGD","BOL","ECU","EGY","GHA","IDN","KAZ","NGA","PAK","VNM"],
-      sample: "Randomized survey experiment, ~37,000 respondents",
-      featured: true
-    },
-    {
-      id: "progressivity-tax-morale",
-      title: "How does progressivity impact tax morale? Experimental evidence across developing countries",
-      authors: "Christopher Hoy",
-      outlet: "Journal of Development Economics",
-      year: 2025,
-      status: "publication",
-      themes: ["Taxes", "Redistribution & inequality"],
-      url: "https://www.sciencedirect.com/science/article/pii/S0304387824001470",
-      countries: ["COL","GHA","IDN","JOR","LKA","MEX","TZA","ZAF"],
-      sample: "Randomized survey experiment, 30,000+ respondents",
-      featured: true
-    },
-    {
-      id: "vaccines-zambia",
-      title: "Intra-household dynamics and attitudes towards vaccines: Experimental and survey evidence from Zambia",
-      authors: "Christopher Hoy, Rajalakshmi Kanagavel & Corey Cameron",
-      outlet: "Review of Economics of the Household",
-      year: 2025,
-      status: "publication",
-      themes: ["Poverty & wellbeing"],
-      url: "https://doi.org/10.1007/s11150-025-09768-3",
-      countries: ["ZMB"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "false-divide",
-      title: "A false divide? Providing information about inequality aligns preferences for redistribution between right- and left-wing voters",
-      authors: "Christopher Hoy, Russell Toth & Nurina Merdikawati",
-      outlet: "Journal of Economic Inequality",
-      year: 2024,
-      status: "publication",
-      themes: ["Redistribution & inequality"],
-      url: "https://doi.org/10.1007/s10888-023-09609-2",
-      countries: ["AUS"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "indonesia-inequality-voting",
-      title: "How does information about inequality shape voting intentions and preferences for redistribution? Evidence from a randomized survey experiment in Indonesia",
-      authors: "Christopher Hoy, Russell Toth & Nurina Merdikawati",
-      outlet: "Journal of Behavioral and Experimental Economics",
-      year: 2024,
-      status: "publication",
-      themes: ["Redistribution & inequality"],
-      url: "https://www.sciencedirect.com/science/article/pii/S2214804324001113",
-      countries: ["IDN"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "aid-popularity",
-      title: "Helping us or helping them? What makes foreign aid popular with donor publics?",
-      authors: "Terence Wood & Christopher Hoy",
-      outlet: "Economic Development and Cultural Change",
-      year: 2022,
-      status: "publication",
-      themes: ["Redistribution & inequality"],
-      url: "https://doi.org/10.1086/713930",
-      countries: ["AUS", "NZL"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "meritocracy",
-      title: "How information about economic inequality impacts belief in meritocracy: Evidence from a randomized survey experiment across Australia, Indonesia and Mexico",
-      authors: "Jonathan J. B. Mijs & Christopher Hoy",
-      outlet: "Social Problems",
-      year: 2022,
-      status: "publication",
-      themes: ["Redistribution & inequality"],
-      url: "https://doi.org/10.1093/socpro/spaa059",
-      countries: ["AUS","IDN","MEX"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "vaccine-hesitancy",
-      title: "Addressing vaccine hesitancy in developing countries: Survey and experimental evidence",
-      authors: "Christopher Hoy, Terence Wood & Ellen Moscoe",
-      outlet: "PLOS ONE",
-      year: 2022,
-      status: "publication",
-      themes: ["Poverty & wellbeing"],
-      url: "https://doi.org/10.1371/journal.pone.0277493",
-      // TODO(Chris): add the full set of countries surveyed in this study
-      countries: ["PNG"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "redistribution-ten",
-      title: "Why are relatively poor people not more supportive of redistribution? Evidence from a randomized survey experiment across ten countries",
-      authors: "Christopher Hoy & Franziska Mager",
-      outlet: "American Economic Journal: Economic Policy",
-      year: 2021,
-      status: "publication",
-      themes: ["Redistribution & inequality"],
-      url: "https://doi.org/10.1257/pol.20190276",
-      countries: ["AUS", "GBR", "USA", "IND", "MEX", "MAR", "NLD", "NGA", "ZAF", "ESP"],
-      sample: "Randomized survey experiment, 30,000+ respondents",
-      featured: true
-    },
-    {
-      id: "american-exceptionalism",
-      title: "American exceptionalism? Differences in the elasticity of preferences for redistribution between the United States and Western Europe",
-      authors: "Christopher Hoy & Franziska Mager",
-      outlet: "Journal of Economic Behavior and Organization",
-      year: 2021,
-      status: "publication",
-      themes: ["Redistribution & inequality"],
-      url: "https://ideas.repec.org/a/eee/jeborg/v192y2021icp518-540.html",
-      // TODO(Chris): confirm country coverage
-      countries: ["USA","GBR","NLD","ESP"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "geostrategic-aid",
-      title: "The effect of geostrategic competition on public attitudes to aid",
-      authors: "Terence Wood, Christopher Hoy & Jonathan Pryke",
-      outlet: "Journal of Experimental Political Science",
-      year: 2021,
-      status: "publication",
-      themes: ["Redistribution & inequality"],
-      url: "https://doi.org/10.1017/XPS.2020.27",
-      countries: ["AUS"],
-      sample: null,
-      featured: false
-    },
-
-    /* ---------------- Working papers & work in progress ---------------- */
-
-    {
-      id: "horizontal-equity",
-      title: "Horizontal equity of taxation: Citizen beliefs and policy preferences",
-      authors: "Pierre Bachas, Christopher Hoy, Anders Jensen & Mahvish Shaukat",
-      outlet: "World Bank Policy Research Working Paper",
-      year: 2026,
-      status: "working-paper",
-      themes: ["Taxes", "Redistribution & inequality"],
-      url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099718004292611926",
-      countries: ["PAK", "COL", "IND", "IDN", "NGA", "PHL"],
-      sample: null,
-      featured: true
-    },
-    {
-      id: "poverty-mortality",
-      title: "For shorter or poorer: Attitudes toward the trade-off between poverty and mortality",
-      authors: "Benoit Decerf, Christopher Hoy & Olivier Sterck",
-      outlet: "IFS Working Paper",
-      year: 2026,
-      status: "working-paper",
-      themes: ["Poverty & wellbeing"],
-      url: "https://ifs.org.uk/publications/shorter-or-poorer-attitudes-toward-trade-between-poverty-and-mortality",
-      countries: ["COL", "IND", "IDN", "NGA", "ZAF", "GBR", "USA"],
-      sample: null,
-      featured: true
-    },
-    {
-      id: "managers-ai",
-      title: "Managers as gatekeepers in the age of AI",
-      authors: "Christopher Hoy, Yong Suk Lee, Cassandra Merritt & Jacob Dominski",
-      outlet: "IFS Working Paper",
-      year: 2026,
-      status: "working-paper",
-      themes: ["Redistribution & inequality"],
-      url: "https://ifs.org.uk/publications/managers-gatekeepers-age-ai",
-      countries: ["USA", "GBR"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "fighting-poverty",
-      title: "Attitudes toward poverty reduction programs around the world",
-      authors: "Edward Bond, François Gerard, Christopher Hoy & Ben Waltmann",
-      outlet: "Registered report, in progress",
-      year: 2026,
-      status: "in-progress",
-      themes: ["Poverty & wellbeing", "Redistribution & inequality"],
-      url: null,
-      // Pilot countries to date — update as the full study is fielded
-      countries: ["BRA","IND","KEN","NGA","ZAF"],
-      sample: "Multi-country registered report",
-      featured: false
-    },
-    {
-      id: "vat-exemptions",
-      title: "Informality, incidence and pass-through of VAT exemptions",
-      authors: "Christopher Hoy, Matias Strehl-Pessina & Ruggero Doino",
-      outlet: "Working paper",
-      year: 2026,
-      status: "working-paper",
-      themes: ["Taxes", "Subsidies"],
-      url: null,
-      countries: ["PNG"],
-      sample: "Household survey, store-level price data and administrative records",
-      featured: false
-    },
-    {
-      id: "econ-reforms",
-      title: "Public preferences for economic reforms",
-      authors: "Christopher Hoy & World Bank colleagues",
-      outlet: "World Bank Policy Research Working Paper",
-      year: 2025,
-      status: "working-paper",
-      themes: ["Subsidies", "Taxes"],
-      url: "https://ideas.repec.org/p/wbk/wbrwps/11233.html",
-      countries: ["EGY", "IDN", "MNG", "NGA", "UZB"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "simplified-tax",
-      title: "Trade-offs in the design of simplified tax regimes",
-      authors: "Christopher Hoy & World Bank colleagues",
-      outlet: "World Bank Policy Research Working Paper",
-      year: 2025,
-      status: "working-paper",
-      themes: ["Taxes"],
-      url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099529509162440365",
-      countries: ["KEN"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "slb-hfps",
-      title: "Solomon Islands High Frequency Phone Survey on COVID-19",
-      authors: "World Bank & UNICEF",
-      outlet: "World Bank & UNICEF report",
-      year: 2022,
-      status: "report",
-      themes: ["Poverty & wellbeing"],
-      url: "https://openknowledge.worldbank.org/entities/publication/4178af52-02c7-5de6-973c-eecbb9050e89",
-      countries: ["SLB"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "som-social-contract",
-      title: "Toward building Somalia\u2019s social contract: State affordability, revenue mobilization, and service delivery in a nascent federal state",
-      authors: "World Bank",
-      outlet: "World Bank report",
-      year: 2024,
-      status: "report",
-      themes: ["Taxes"],
-      url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099111424062026744",
-      countries: ["SOM"],
-      sample: null,
-      featured: false
-    },
-    {
-      id: "polarization",
-      title: "Political polarization, wage inequality and preferences for redistribution",
-      authors: "Christopher Hoy, Lionel Page, Catherine Eckel, Philip Grossman & Daniel Goldstein",
-      outlet: "Revise & resubmit, Journal of Economic Behavior and Organization",
-      year: 2025,
-      status: "working-paper",
-      themes: ["Redistribution & inequality"],
-      url: "https://ideas.repec.org/p/ifs/ifsewp/25-36.html",
-      countries: ["USA", "GBR", "AUS", "FRA", "SWE", "JPN"],
-      sample: null,
-      featured: true
-    },
-    {
-      id: "indonesia-tax-evasion",
-      title: "Revealing tax evasion: Experimental evidence from a nationally representative survey of Indonesian firms",
-      authors: "Christopher Hoy, Filip Jolevski & Anthony Obeyesekere",
-      outlet: "Revise & resubmit, Journal of Economic Behavior and Organization",
-      year: 2025,
-      status: "working-paper",
-      themes: ["Taxes"],
-      url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099358407222411531/idu18ac8f51d1c91e14f751936b1e28e9f364a0b",
-      countries: ["IDN"],
-      sample: "Double-list experiment, nationally representative firm survey",
-      featured: false
+    // marker dot for countries too small to click (uses baked centroids
+    // because bounding boxes are unreliable for antimeridian countries)
+    const c = (typeof MAP_CENTROIDS !== "undefined") && MAP_CENTROIDS[iso];
+    if (c && c[2] < MICRO_AREA) {
+      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      dot.setAttribute("cx", c[0]);
+      dot.setAttribute("cy", c[1]);
+      dot.setAttribute("r", 6);
+      dot.setAttribute("class", "micro");
+      dot.setAttribute("data-iso", iso);
+      dot.setAttribute("tabindex", "0");
+      dot.setAttribute("role", "button");
+      dot.setAttribute("aria-label", path.getAttribute("aria-label"));
+      svg.getElementById("micromarkers").appendChild(dot);
     }
-  ]
-};
+  });
+
+  function inTheme(iso) {
+    return !selTheme || (themeCountries[selTheme] && themeCountries[selTheme][iso]);
+  }
+
+  function tipShow(evt, iso) {
+    const list = (byCountry[iso] || []).filter(function (s) {
+      return !selTheme || (s.themes || []).indexOf(selTheme) !== -1;
+    });
+    const n = list.length;
+    tip.innerHTML =
+      '<span class="t-name">' + esc(countryName(iso)) + "</span><br>" +
+      '<span class="t-n">' + n + (n === 1 ? " STUDY" : " STUDIES") +
+      (selTheme ? " IN THEME" : "") + " — CLICK TO VIEW</span>";
+    tip.classList.add("show");
+    tipMove(evt);
+  }
+  function tipMove(evt) {
+    const r = frame.getBoundingClientRect();
+    let x = evt.clientX - r.left + 14;
+    let y = evt.clientY - r.top + 14;
+    if (x + tip.offsetWidth > r.width - 8) x = evt.clientX - r.left - tip.offsetWidth - 12;
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  }
+  function tipHide() { tip.classList.remove("show"); }
+
+  function studyItem(s, metaExtra) {
+    const pill = s.status === "working-paper" ? '<span class="pill wp">WP</span>'
+               : s.status === "in-progress" ? '<span class="pill ip">In progress</span>' : "";
+    const t = s.url
+      ? '<a href="' + esc(s.url) + '">' + esc(s.title) + "</a>"
+      : '<span class="p-title-plain">' + esc(s.title) + "</span>";
+    return "<li>" + t + '<span class="meta">' + esc(metaExtra || s.outlet) + " · " + s.year + pill + "</span></li>";
+  }
+
+  function renderPanel() {
+    panel.classList.toggle("show", !!(selected || selTheme));
+    if (selected) {
+      const list = byCountry[selected].filter(function (s) {
+        return !selTheme || (s.themes || []).indexOf(selTheme) !== -1;
+      });
+      panel.innerHTML =
+        '<div class="p-code">' + selected + (selTheme ? " · " + esc(selTheme) : "") + "</div>" +
+        "<h3>" + esc(countryName(selected)) + "</h3>" +
+        '<div class="p-count">' + list.length + (list.length === 1 ? " study" : " studies") + "</div>" +
+        '<ul class="p-list">' + list.map(function (s) { return studyItem(s); }).join("") + "</ul>";
+      return;
+    }
+    if (selTheme) {
+      const list = byTheme[selTheme] || [];
+      const nC = Object.keys(themeCountries[selTheme] || {}).length;
+      panel.innerHTML =
+        '<div class="p-code">Theme</div>' +
+        "<h3>" + esc(selTheme) + "</h3>" +
+        '<div class="p-count">' + list.length + (list.length === 1 ? " study" : " studies") +
+        " · " + nC + (nC === 1 ? " country" : " countries") + "</div>" +
+        '<ul class="p-list">' + list.map(function (s) { return studyItem(s); }).join("") + "</ul>";
+      return;
+    }
+    panel.innerHTML = "";
+  }
+
+  function refreshMap() {
+    activeISOs.forEach(function (iso) {
+      const ok = inTheme(iso);
+      svg.querySelectorAll('[data-iso="' + iso + '"]').forEach(function (el) {
+        if (el.classList.contains("micro")) {
+          el.classList.toggle("off", !ok);
+        } else {
+          el.classList.toggle("active", !!ok);
+          if (ok) { el.setAttribute("tabindex", "0"); } else { el.removeAttribute("tabindex"); }
+        }
+        if (!ok) el.classList.remove("selected");
+      });
+      if (chipsEl) {
+        const chip = chipsEl.querySelector('.chip[data-iso="' + iso + '"]');
+        if (chip) chip.classList.toggle("dim", !ok);
+      }
+    });
+  }
+
+  function select(iso) {
+    if (iso && !inTheme(iso)) return;
+    selected = iso;
+    svg.querySelectorAll(".selected").forEach(function (el) { el.classList.remove("selected"); });
+    if (chipsEl) chipsEl.querySelectorAll(".chip.on").forEach(function (el) { el.classList.remove("on"); });
+    if (iso) {
+      svg.querySelectorAll('[data-iso="' + iso + '"]').forEach(function (el) {
+        el.classList.add("selected");
+      });
+      if (chipsEl) {
+        const chip = chipsEl.querySelector('.chip[data-iso="' + iso + '"]');
+        if (chip) chip.classList.add("on");
+      }
+    }
+    renderPanel();
+  }
+
+  function applyTheme(theme) {
+    selTheme = theme || null;
+    if (selected && !inTheme(selected)) selected = null;
+    if (themeFilterEl) {
+      themeFilterEl.querySelectorAll(".tpill").forEach(function (b) {
+        b.classList.toggle("on", (b.getAttribute("data-theme") || null) === selTheme);
+      });
+    }
+    refreshMap();
+    select(selected); // re-sync selection classes + panel
+  }
+
+  svg.addEventListener("click", function (evt) {
+    const el = evt.target.closest(".active, .micro");
+    if (!el || el.classList.contains("off")) return;
+    const iso = el.getAttribute("data-iso");
+    select(selected === iso ? null : iso);
+  });
+  svg.addEventListener("keydown", function (evt) {
+    if (evt.key !== "Enter" && evt.key !== " ") return;
+    const el = evt.target.closest(".active, .micro");
+    if (!el || el.classList.contains("off")) return;
+    evt.preventDefault();
+    const iso = el.getAttribute("data-iso");
+    select(selected === iso ? null : iso);
+  });
+  svg.addEventListener("mousemove", function (evt) {
+    const el = evt.target.closest(".active, .micro");
+    if (el && !el.classList.contains("off")) tipShow(evt, el.getAttribute("data-iso")); else tipHide();
+  });
+  svg.addEventListener("mouseleave", tipHide);
+
+  /* ---------- theme filter pills ---------- */
+  if (themeFilterEl) {
+    themeFilterEl.innerHTML =
+      '<button class="tpill on" data-theme="">All themes</button>' +
+      LAB.themes.map(function (t) {
+        return '<button class="tpill" data-theme="' + esc(t) + '">' + esc(t) + "</button>";
+      }).join("");
+    themeFilterEl.addEventListener("click", function (evt) {
+      const b = evt.target.closest(".tpill");
+      if (!b) return;
+      const t = b.getAttribute("data-theme") || null;
+      applyTheme(t === selTheme ? null : t);
+    });
+  }
+
+  /* ---------- chips (optional element) ---------- */
+  if (chipsEl) {
+  chipsEl.innerHTML = activeISOs
+    .slice()
+    .sort(function (a, b) { return countryName(a).localeCompare(countryName(b)); })
+    .map(function (iso) {
+      return '<button class="chip" data-iso="' + iso + '">' +
+        '<span class="iso">' + iso + "</span>" + esc(countryName(iso)) + "</button>";
+    }).join("");
+  chipsEl.addEventListener("click", function (evt) {
+    const chip = evt.target.closest(".chip");
+    if (!chip || chip.classList.contains("dim")) return;
+    const iso = chip.getAttribute("data-iso");
+    select(selected === iso ? null : iso);
+  });
+  }
+
+  /* ---------- themes strip → jumps to the map with the theme applied ---------- */
+  if (themesEl) {
+    themesEl.innerHTML = LAB.themes.map(function (t) {
+      return '<button class="theme-tag" data-theme="' + esc(t) + '">' + esc(t) + "</button>";
+    }).join("");
+    themesEl.addEventListener("click", function (evt) {
+      const b = evt.target.closest(".theme-tag");
+      if (!b) return;
+      applyTheme(b.getAttribute("data-theme"));
+      document.getElementById("map").scrollIntoView({ behavior: noMotion ? "auto" : "smooth" });
+    });
+  }
+
+  /* ---------- country marquee (only if the theme includes one) ---------- */
+  const mq = document.getElementById("marquee");
+  if (mq) {
+    const names = activeISOs.map(countryName).sort();
+    const run = names.join('<span class="mq-sep">\u2726</span>');
+    mq.innerHTML = '<div class="mq-track"><span class="mq-run">' + run +
+      '<span class="mq-sep">\u2726</span></span><span class="mq-run" aria-hidden="true">' + run +
+      '<span class="mq-sep">\u2726</span></span></div>';
+  }
+
+  /* ---------- scroll reveal ---------- */
+  const rvEls = document.querySelectorAll("[data-rv]");
+  if (rvEls.length) {
+    if (noMotion || !("IntersectionObserver" in window)) {
+      rvEls.forEach(function (el) { el.classList.add("in"); });
+    } else {
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      rvEls.forEach(function (el) { io.observe(el); });
+    }
+  }
+
+  /* ---------- deep links: ?c=PNG#map and ?t=Tax%20%26%20compliance#map ---------- */
+  const params = new URLSearchParams(window.location.search);
+  const preT = params.get("t");
+  const preC = params.get("c");
+  renderPanel();
+  if (preT && byTheme[preT]) applyTheme(preT);
+  if (preC && byCountry[preC.toUpperCase()]) select(preC.toUpperCase());
+})();

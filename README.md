@@ -1,66 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data — Policy Preferences Lab</title>
-  <meta name="description" content="Public data and replication packages from the Policy Preferences Lab.">
-  <meta property="og:title" content="Data — Policy Preferences Lab">
-  <meta property="og:description" content="Public data and replication packages from the Policy Preferences Lab.">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Policy Preferences Lab">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23142a33'/><rect x='22' y='22' width='56' height='56' fill='%23d98e04'/></svg>">
-</head>
-<body>
+# Policy Preferences Lab — website
 
-<header class="topbar">
-  <div class="wrap">
-    <a class="wordmark" href="index.html">Policy Preferences Lab<span class="dot"> ▪</span></a>
-    <nav class="mainnav" aria-label="Main">
-      <a href="index.html#map">Where we work</a>
-      <a href="data.html" class="current">Explore the data</a>
-      <a href="research.html">Publications</a>
-      <a href="index.html#about">About</a>
-      <a class="navbtn" href="#contact">Collaborate with us</a>
-    </nav>
-  </div>
-</header>
+Static site: plain HTML/CSS/JS, no build step, no dependencies. `index.html` (map, about,
+featured research, contact) plus `research.html` (full catalogue), `data.html` (placeholder),
+and `404.html`. Everything content-related lives in one file: `data.js`. All files sit flat at the repo root — no folders needed.
 
-<main>
+---
 
-  <section class="pagehead">
-    <div class="wrap">
-      <div class="eyebrow">Data</div>
-      <h1>Explore the data</h1>
-      <p class="lede">Public microdata, replication packages, and interactive dashboards from the
-        lab&rsquo;s studies will be posted here. For access ahead of release, or to discuss using the
-        data, <a href="index.html#contact">collaborate with us</a>.</p>
-    </div>
-  </section>
+## Go live on GitHub Pages (≈5 minutes)
 
-</main>
+1. **Create the repository.** On github.com → New repository → name it (e.g.
+   `policy-preferences-lab`) → Public → Create. Don't add a README/gitignore.
 
-<footer id="contact">
-  <div class="wrap">
-    <div class="footgrid">
-      <div>
-        <div class="eyebrow">Contact</div>
-        <h2>Collaborate with us</h2>
-        <p style="max-width:46ch">For collaborations, data enquiries, or media requests, write to
-          <a href="mailto:christopher.hoy@unimelb.edu.au">christopher.hoy@unimelb.edu.au</a>.</p>
-      </div>
-    </div>
-    <div class="footnote">
-      <span>© 2026 Policy Preferences Lab</span>
-    </div>
-  </div>
-</footer>
+2. **Push these files.** From the folder containing `index.html` (this folder — the files,
+   not a parent folder, must be at the repo root):
 
-<script src="js/data.js"></script>
-<script src="js/research.js"></script>
-</body>
-</html>
+   ```bash
+   git init
+   git add .
+   git commit -m "Launch Policy Preferences Lab site"
+   git branch -M main
+   git remote add origin https://github.com/YOUR-USERNAME/policy-preferences-lab.git
+   git push -u origin main
+   ```
+
+3. **Turn on Pages.** Repo → Settings → Pages → Build and deployment →
+   Source: *Deploy from a branch* → Branch: `main`, folder `/ (root)` → Save.
+
+4. **Wait ~1 minute.** The site is live at
+   `https://YOUR-USERNAME.github.io/policy-preferences-lab/`.
+
+5. **Check it.** Click a few countries, try the theme filter, open Publications.
+
+The `.nojekyll` file tells GitHub to serve files exactly as-is — keep it.
+
+---
+
+## Custom domain (optional)
+
+Say you own `policypreferenceslab.org`:
+
+1. Repo → Settings → Pages → Custom domain → enter the domain → Save
+   (GitHub commits a `CNAME` file to the repo).
+2. At your DNS provider, add:
+
+   | Type  | Host | Value |
+   |-------|------|----------------------------|
+   | A     | @    | 185.199.108.153 |
+   | A     | @    | 185.199.109.153 |
+   | A     | @    | 185.199.110.153 |
+   | A     | @    | 185.199.111.153 |
+   | CNAME | www  | YOUR-USERNAME.github.io |
+
+3. Back in Settings → Pages, tick **Enforce HTTPS** once the certificate is issued
+   (can take up to an hour).
+
+---
+
+## Editing the site
+
+Almost everything is driven by **`data.js`** — you rarely need to touch HTML.
+
+- **Add/edit a study:** copy an entry in `LAB.studies`. Key fields:
+  `countries` (ISO3 codes — lights the country up on the map), `themes`
+  (must match `LAB.themes`), `status` (`publication` → Publications list;
+  `working-paper` / `report` / `in-progress` → the other list),
+  `featured: true` (homepage card), `url`.
+- **Add a country:** put its ISO3 code in a study's `countries` and add a display
+  name to `LAB.countryNames`. Map, filter and counts update automatically.
+- **Hero numbers:** `LAB.stats` — currently `40+` countries / `250,000+` surveyed /
+  `22+` studies. These are display labels; the map itself always reflects the data.
+- **Themes:** `LAB.themes` — currently Taxes, Redistribution & inequality,
+  Subsidies, Poverty & wellbeing.
+
+After editing, commit and push; Pages redeploys automatically in about a minute.
+
+---
+
+## Before you announce it
+
+- [ ] Two country lists still marked `TODO` in `data.js`: the vaccine-hesitancy
+      study (PNG only listed) and the American-exceptionalism paper (USA/GBR/NLD/ESP
+      unconfirmed).
+- [ ] Hero says **40+ countries**; the map currently shows **38**.
+- [ ] `data.html` is a placeholder — replace its text when you have data links.
+- [ ] Once the final URL exists, optionally add
+      `<meta property="og:url" content="https://your-domain/">` and an
+      `og:image` (1200×630 PNG) to `index.html` for nicer link previews.
+
+## Regenerating the world map (rarely needed)
+
+`build_map.py` rebuilds the inline SVG from `countries.geo.json`
+(Robinson projection): `pip install pyproj && python build_map.py`, then
+re-inline `map.svg` into `index.html` and regenerate `map-centroids.js`
+from `centroids.json`. For adding countries or studies you never need this.
