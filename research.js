@@ -38,14 +38,14 @@
   /* working papers & work in progress */
   const wps = LAB.studies
     .filter(function (s) { return s.status !== "publication"; })
-    .sort(function (a, b) { return b.year - a.year || a.title.localeCompare(b.title); });
+    .sort(function (a, b) { return (a.rank || 99) - (b.rank || 99) || a.year - b.year || a.title.localeCompare(b.title); });
   const wpEl = document.getElementById("wplist");
   if (wpEl) wpEl.innerHTML = wps.map(item).join("");
 
   /* publications grouped by year */
   const pubs = LAB.studies
     .filter(function (s) { return s.status === "publication"; })
-    .sort(function (a, b) { return b.year - a.year || a.title.localeCompare(b.title); });
+    .sort(function (a, b) { return (a.rank || 99) - (b.rank || 99) || a.year - b.year || a.title.localeCompare(b.title); });
   const pubEl = document.getElementById("publist");
   if (pubEl) {
     let html = "", year = null;

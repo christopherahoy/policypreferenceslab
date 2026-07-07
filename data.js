@@ -39,17 +39,17 @@ const LAB = {
   respondentsLabel: "200,000+",
 
   // Hero stat labels shown on the homepage (override the auto-computed counts).
-  stats: { countries: "40+", respondents: "250,000+", studies: "22+" },
+  stats: { countries: "40+", respondents: "250,000+", studies: "23+" },
 
   themes: ["Taxes", "Redistribution & inequality", "Subsidies", "Poverty & wellbeing"],
 
   // Country display names for chips and the map panel (ISO3 → name).
   countryNames: {
     AGO: "Angola", ARG: "Argentina", AUS: "Australia", BGD: "Bangladesh",
-    BOL: "Bolivia", BRA: "Brazil", COL: "Colombia", ECU: "Ecuador",
+    BOL: "Bolivia", BRA: "Brazil", COL: "Colombia", DNK: "Denmark", ECU: "Ecuador",
     EGY: "Egypt", ESP: "Spain", FJI: "Fiji", FRA: "France",
     GBR: "United Kingdom", GHA: "Ghana", IDN: "Indonesia", IND: "India",
-    JOR: "Jordan", JPN: "Japan", KAZ: "Kazakhstan", KEN: "Kenya",
+    JOR: "Jordan", JPN: "Japan", KAZ: "Kazakhstan", KEN: "Kenya", KGZ: "Kyrgyz Republic",
     LKA: "Sri Lanka", MAR: "Morocco", MEX: "Mexico", MNG: "Mongolia",
     NGA: "Nigeria", NLD: "Netherlands", NZL: "New Zealand", PAK: "Pakistan",
     PHL: "Philippines", PNG: "Papua New Guinea", SLB: "Solomon Islands", SOM: "Somalia", SWE: "Sweden", TZA: "Tanzania",
@@ -154,7 +154,7 @@ const LAB = {
       status: "publication",
       themes: ["Redistribution & inequality"],
       url: "https://doi.org/10.1086/713930",
-      countries: ["AUS", "NZL"],
+      countries: ["AUS"],
       sample: null,
       featured: false
     },
@@ -180,7 +180,6 @@ const LAB = {
       status: "publication",
       themes: ["Poverty & wellbeing"],
       url: "https://doi.org/10.1371/journal.pone.0277493",
-      // TODO(Chris): add the full set of countries surveyed in this study
       countries: ["PNG"],
       sample: null,
       featured: false
@@ -191,6 +190,7 @@ const LAB = {
       authors: "Christopher Hoy & Franziska Mager",
       outlet: "American Economic Journal: Economic Policy",
       year: 2021,
+      rank: 1,
       status: "publication",
       themes: ["Redistribution & inequality"],
       url: "https://doi.org/10.1257/pol.20190276",
@@ -207,8 +207,7 @@ const LAB = {
       status: "publication",
       themes: ["Redistribution & inequality"],
       url: "https://ideas.repec.org/a/eee/jeborg/v192y2021icp518-540.html",
-      // TODO(Chris): confirm country coverage
-      countries: ["USA","GBR","NLD","ESP"],
+      countries: ["USA","GBR","NLD","ESP","DNK"],
       sample: null,
       featured: false
     },
@@ -221,7 +220,7 @@ const LAB = {
       status: "publication",
       themes: ["Redistribution & inequality"],
       url: "https://doi.org/10.1017/XPS.2020.27",
-      countries: ["AUS"],
+      countries: ["AUS","NZL"],
       sample: null,
       featured: false
     },
@@ -234,6 +233,7 @@ const LAB = {
       authors: "Pierre Bachas, Christopher Hoy, Anders Jensen & Mahvish Shaukat",
       outlet: "World Bank Policy Research Working Paper",
       year: 2026,
+      rank: 1,
       status: "working-paper",
       themes: ["Taxes", "Redistribution & inequality"],
       url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099718004292611926",
@@ -247,6 +247,7 @@ const LAB = {
       authors: "Benoit Decerf, Christopher Hoy & Olivier Sterck",
       outlet: "IFS Working Paper",
       year: 2026,
+      rank: 2,
       status: "working-paper",
       themes: ["Poverty & wellbeing"],
       url: "https://ifs.org.uk/publications/shorter-or-poorer-attitudes-toward-trade-between-poverty-and-mortality",
@@ -260,6 +261,7 @@ const LAB = {
       authors: "Christopher Hoy, Yong Suk Lee, Cassandra Merritt & Jacob Dominski",
       outlet: "IFS Working Paper",
       year: 2026,
+      rank: 5,
       status: "working-paper",
       themes: ["Redistribution & inequality"],
       url: "https://ifs.org.uk/publications/managers-gatekeepers-age-ai",
@@ -273,11 +275,12 @@ const LAB = {
       authors: "Edward Bond, François Gerard, Christopher Hoy & Ben Waltmann",
       outlet: "Registered report, in progress",
       year: 2026,
+      rank: 4,
       status: "in-progress",
       themes: ["Poverty & wellbeing", "Redistribution & inequality"],
       url: null,
       // Pilot countries to date — update as the full study is fielded
-      countries: ["BRA","IND","KEN","NGA","ZAF"],
+      countries: ["BRA","COL","EGY","IDN","IND","KEN","NGA","ZAF"],
       sample: "Multi-country registered report",
       featured: false
     },
@@ -297,20 +300,21 @@ const LAB = {
     {
       id: "econ-reforms",
       title: "Public preferences for economic reforms",
-      authors: "Christopher Hoy & World Bank colleagues",
+      authors: "Christopher Hoy, Yeon Soo Kim, Saad Imtiaz, Ana Maria Rojas Mendez, Moritz Meyer, Gustavo Canavire Bacarreza, Lydia Kim, William Seitz, Imane Helmy, Ikuko Uochi, Sering Touray, Juni Singh, Bambang Suharnoko Sjahrir, Utz Pape, Alan Fuchs, Trang Nguyen, Defne Gencer, Min A Lee, Akiko Sagesaka & Ivette Contreras",
       outlet: "World Bank Policy Research Working Paper",
       year: 2025,
+      rank: 3,
       status: "working-paper",
       themes: ["Subsidies", "Taxes"],
       url: "https://ideas.repec.org/p/wbk/wbrwps/11233.html",
-      countries: ["EGY", "IDN", "MNG", "NGA", "UZB"],
+      countries: ["EGY", "KGZ", "IDN", "MNG", "NGA", "UZB"],
       sample: null,
       featured: false
     },
     {
       id: "simplified-tax",
       title: "Trade-offs in the design of simplified tax regimes",
-      authors: "Christopher Hoy & World Bank colleagues",
+      authors: "Christopher Hoy, Thiago Scot, Alex Oguso, Anna Custers, Daniel Zalo, Ruggero Doino, Jonathan Karver & Nicolas Orgeira Pillai",
       outlet: "World Bank Policy Research Working Paper",
       year: 2025,
       status: "working-paper",
@@ -334,6 +338,19 @@ const LAB = {
       featured: false
     },
     {
+      id: "tanzania-taxman",
+      title: "Lying to the taxman or accepting a helping hand? Evidence from a novel experiment on SMEs in Tanzania",
+      authors: "Revocatus Paul, Ephraim Mdee, Massaga Fimbo, Jonathan Karver, Zain Chaudhry & Christopher Hoy",
+      outlet: "World Bank Policy Research Working Paper",
+      year: 2025,
+      status: "working-paper",
+      themes: ["Taxes"],
+      url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099358002102524493",
+      countries: ["TZA"],
+      sample: null,
+      featured: false
+    },
+    {
       id: "som-social-contract",
       title: "Toward building Somalia\u2019s social contract: State affordability, revenue mobilization, and service delivery in a nascent federal state",
       authors: "World Bank",
@@ -352,7 +369,7 @@ const LAB = {
       authors: "Christopher Hoy, Lionel Page, Catherine Eckel, Philip Grossman & Daniel Goldstein",
       outlet: "Revise & resubmit, Journal of Economic Behavior and Organization",
       year: 2025,
-      status: "working-paper",
+      status: "publication",
       themes: ["Redistribution & inequality"],
       url: "https://ideas.repec.org/p/ifs/ifsewp/25-36.html",
       countries: ["USA", "GBR", "AUS", "FRA", "SWE", "JPN"],
@@ -365,7 +382,7 @@ const LAB = {
       authors: "Christopher Hoy, Filip Jolevski & Anthony Obeyesekere",
       outlet: "Revise & resubmit, Journal of Economic Behavior and Organization",
       year: 2025,
-      status: "working-paper",
+      status: "publication",
       themes: ["Taxes"],
       url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099358407222411531/idu18ac8f51d1c91e14f751936b1e28e9f364a0b",
       countries: ["IDN"],
