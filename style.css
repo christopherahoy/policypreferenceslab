@@ -282,3 +282,8 @@ footer .btn:hover{background:var(--ochre-h);color:#14262e;transform:translateY(-
 @media (max-width:940px){
   .mappanel .p-list{columns:1}
 }
+
+/* ---------------- topbar logo ---------------- */
+.wordmark{display:flex;align-items:center}
+.logoimg{height:40px;width:auto;display:block;mix-blend-mode:multiply}
+@media (max-width:640px){ .logoimg{height:32px} }
