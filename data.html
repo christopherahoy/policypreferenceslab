@@ -30,8 +30,8 @@
 .chart-card{padding:22px;min-height:520px}
 .chart-title{font:600 25px/1.15 var(--disp);margin:0 0 5px;color:var(--ink)}
 .chart-sub{font-size:13.5px;color:var(--mut);margin:0 0 18px;max-width:72ch}
-.chart-svg-wrap{width:100%;height:390px;border:1px solid var(--line);border-radius:12px;background:#fbfaf5;overflow:hidden}
-#pplchart{width:100%;height:100%;display:block}
+.chart-svg-wrap{width:100%;height:auto;min-height:390px;border:1px solid var(--line);border-radius:12px;background:#fbfaf5;overflow:hidden}
+#pplchart{width:100%;height:390px;display:block}
 .data-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 .data-actions button,.data-actions a{border:1px solid var(--line);border-radius:99px;background:#fff;padding:8px 13px;font:600 11px/1 var(--mono);letter-spacing:.08em;color:var(--teal);cursor:pointer}
 .data-actions button:hover,.data-actions a:hover{border-color:var(--ochre);color:var(--ochre)}
@@ -46,7 +46,7 @@
 .data-table td.num{text-align:right;font-family:var(--mono);font-weight:600}
 .data-table td.note{color:var(--mut);font-size:11.5px;min-width:230px}
 .source-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
-@media(max-width:940px){.data-grid{grid-template-columns:1fr}.builder-panel{position:static}.source-list{grid-template-columns:1fr}.chart-card{min-height:0}.chart-svg-wrap{height:340px}}
+@media(max-width:940px){.data-grid{grid-template-columns:1fr}.builder-panel{position:static}.source-list{grid-template-columns:1fr}.chart-card{min-height:0}#pplchart{height:340px}}
 /* dataset status pills */
 .source-pill{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}
 .source-pill .k{font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ochre)}
@@ -62,6 +62,7 @@
 .empty-chart{font:500 14px var(--body);fill:#687981}
 .zero-line{stroke:#122730;stroke-width:1.5;stroke-dasharray:7 6}
 .axis-title{font:600 11px var(--mono);fill:#53656d}
+.tick-label{font:500 11px var(--mono);fill:#53656d}
   </style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23142a33'/><rect x='22' y='22' width='56' height='56' fill='%23d98e04'/></svg>">
 </head>
@@ -110,13 +111,15 @@
           <select id="cb-chart">
             <option value="auto">Recommended</option>
             <option value="bar">Bar chart</option>
+            <option value="bar-h">Bar chart (horizontal)</option>
             <option value="line">Line chart</option>
             <option value="scatter">Scatter plot</option>
             <option value="point-ci">Point + CI</option>
+            <option value="point-ci-h">Point + CI (horizontal)</option>
           </select>
 
           <button class="btn-mini" id="cb-reset" type="button">Reset filters</button>
-          <div class="builder-note"><b>Source discipline:</b> the explorer only publishes aggregate indicators and now hides sample-size/demographic-only measures from the public chart options. Fossil-fuel-subsidy rows are derived from cleaned weighted microdata; tax-morale rows combine uploaded survey microdata, figure datasets and Stata graph outputs.</div>
+          <div class="builder-note"><b>Source discipline:</b> the explorer publishes aggregate indicators only and hides sample-size/demographic-only measures from the public chart options. Use the source links to download the full replication packages.</div>
         </aside>
 
         <div>
@@ -266,9 +269,7 @@ const PPL_INDICATOR_MANIFEST = {"version":"2026-07-07-substantive-chart-options-
   function recommendedChart(data) {
     if (!data.length) return 'bar';
     if (els.chart.value && els.chart.value !== 'auto') return els.chart.value;
-    const c = data[0].chart || 'bar';
-    return c === 'pointci' ? 'point-ci' : c;
-  }
+    let c = data[0].chart || 'bar'; if (c === 'pointci') c = 'point-ci'; if (c === 'bar' || c === 'point-ci') { const longest = Math.max(...data.map(function(d,i){ return String(d.category||d.group||d.study||'').length; })); if (longest > 14 || data.length > 12) c = (c === 'bar') ? 'bar-h' : 'point-ci-h'; } return c; }
   function render() {
     const data = currentRows();
     const ds = els.dataset.value;
@@ -300,7 +301,7 @@ const PPL_INDICATOR_MANIFEST = {"version":"2026-07-07-substantive-chart-options-
   function renderChart(data, chart) {
     const svg = els.svg, w = Math.max(svg.clientWidth || 760, 360), h = Math.max(svg.clientHeight || 380, 280);
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    svg.innerHTML = '';
+    svg.style.height = ''; svg.innerHTML = '';
     if (!data.length) {
       svg.innerHTML = `<text x="${w/2}" y="${h/2}" text-anchor="middle" class="empty-chart">No data for this filter</text>`;
       return;
@@ -308,9 +309,12 @@ const PPL_INDICATOR_MANIFEST = {"version":"2026-07-07-substantive-chart-options-
     if (chart === 'scatter') return renderScatter(data, svg, w, h);
     if (chart === 'point-ci' || chart === 'pointci') return renderPointCI(data, svg, w, h);
     if (chart === 'line') return renderLine(data, svg, w, h);
-    return renderBar(data, svg, w, h);
+    if (chart === 'bar-h') return renderBarH(data, svg, w, h); if (chart === 'point-ci-h') return renderPointCIH(data, svg, w, h); return renderBar(data, svg, w, h);
   }
-  function renderBar(data, svg, w, h) {
+  function drawTick(svg, cx, ty, label, colW, w) { const full = String(label); const parts = full.split(' \u00b7 '); const est = s => s.length * 6.4; if (parts.length <= 2 && Math.max(...parts.map(est)) <= colW + 16) { const spans = parts.map((p, i) => `<tspan x="${cx}" dy="${i ? 13 : 0}">${esc(p)}</tspan>`).join(''); svg.insertAdjacentHTML('beforeend', `<text class="tick-label" x="${cx}" y="${ty}" text-anchor="middle"><title>${esc(full)}</title>${spans}</text>`); return; } const cap = Math.max(6, Math.min(20, Math.floor((w - cx - 10) / 5.6))); const txt = full.length > cap ? full.slice(0, cap - 1).trimEnd() + '\u2026' : full; svg.insertAdjacentHTML('beforeend', `<text class="tick-label" x="${cx}" y="${ty}" transform="rotate(32 ${cx} ${ty})" text-anchor="start"><title>${esc(full)}</title>${esc(txt)}</text>`); }
+function renderPointCIH(data, svg, w, h) { let plot = sortRows(data).map((d,i)=>({...d,label:xLabel(d,i),value:num(d.value)||0,lower:num(d.lower),upper:num(d.upper)})); if (plot.length > 30) plot = plot.slice(0,30); const unit = plot[0].unit || ''; const maxChars = Math.max(...plot.map(d=>d.label.length)); const capBase = Math.min(26, Math.max(14, Math.ceil(maxChars/2)+4)); const left = Math.min(250, Math.max(120, capBase*6.4 + 22)); const top = 16, right = 34, bottom = 42; const H = Math.max(h, plot.length*30 + top + bottom); svg.setAttribute('viewBox', `0 0 ${w} ${H}`); svg.style.height = H + 'px'; const cw = w-left-right, ch = H-top-bottom; const vals = []; plot.forEach(d=>{ vals.push(d.value); if(d.lower!=null) vals.push(d.lower); if(d.upper!=null) vals.push(d.upper); }); const [min,max] = niceDomain(vals, true); const xs = v => left + ((v-min)/(max-min))*cw; for (let i=0;i<=4;i++){ const val=min+(max-min)*i/4; const gx=xs(val); svg.insertAdjacentHTML('beforeend', `<line class="gridline" x1="${gx}" x2="${gx}" y1="${top}" y2="${H-bottom}"></line><text class="tick-label" x="${gx}" y="${H-bottom+18}" text-anchor="middle">${fmt(val,unit)}</text>`); } if (min < 0 && max > 0) svg.insertAdjacentHTML('beforeend', `<line class="zero-line" x1="${xs(0)}" x2="${xs(0)}" y1="${top}" y2="${H-bottom}"></line>`); const step = ch / plot.length; plot.forEach((d,i)=>{ const cy = top + step*i + step/2; const color = palette[i % palette.length]; if (d.lower != null && d.upper != null) { const xL = xs(d.lower), xU = xs(d.upper); svg.insertAdjacentHTML('beforeend', `<line x1="${xL}" x2="${xU}" y1="${cy}" y2="${cy}" stroke="${color}" stroke-width="2"></line><line x1="${xL}" x2="${xL}" y1="${cy-5}" y2="${cy+5}" stroke="${color}" stroke-width="2"></line><line x1="${xU}" x2="${xU}" y1="${cy-5}" y2="${cy+5}" stroke="${color}" stroke-width="2"></line>`); } svg.insertAdjacentHTML('beforeend', `<circle class="dot-point" cx="${xs(d.value)}" cy="${cy}" r="4.5" style="fill:#14313c"><title>${esc(d.label)}: ${fmt(d.value,unit)}${d.lower!=null? ' ('+fmt(d.lower,unit)+' to '+fmt(d.upper,unit)+')' : ''}</title></circle>`); const cap = Math.max(6, Math.floor((left-16)/6.2)); let lines; if (d.label.length <= cap) lines = [d.label]; else { let a = d.label.slice(0, cap), rest; const sp = a.lastIndexOf(' '); if (sp > cap*0.4) { rest = d.label.slice(sp+1); a = d.label.slice(0,sp); } else { rest = d.label.slice(cap); } if (rest.length > cap) rest = rest.slice(0, cap-1).trimEnd()+'\u2026'; lines = [a, rest]; } const y0 = cy + 3.5 - (lines.length-1)*6; const spans = lines.map((L,k)=>`<tspan x="${left-10}"${k? ' dy="12"':''}>${esc(L)}</tspan>`).join(''); svg.insertAdjacentHTML('beforeend', `<text class="tick-label" x="${left-10}" y="${y0}" text-anchor="end"><title>${esc(d.label)}</title>${spans}</text>`); }); if (unit) svg.insertAdjacentHTML('beforeend', `<text class="axis-title" x="${left+cw/2}" y="${H-6}" text-anchor="middle">${esc(unit)}</text>`); }
+function renderBarH(data, svg, w, h) { let plot = data.slice(); if (plot.length > 30) plot = plot.sort((a,b)=>(num(b.value)||0)-(num(a.value)||0)).slice(0,30); plot = sortRows(plot).map((d,i)=>({...d, label:xLabel(d,i), value:num(d.value)||0})); const unit = plot[0].unit || ''; const longest = Math.max(...plot.map(d=>d.label.length)); const left = Math.min(250, Math.max(90, longest*6.6 + 18)); const top = 18, right = 52, bottom = 44; const H = Math.max(h, plot.length*28 + top + bottom); svg.setAttribute('viewBox', `0 0 ${w} ${H}`); svg.style.height = H + 'px'; h = H; const cw = w-left-right, ch = h-top-bottom; const [min,max] = niceDomain(plot.map(d=>d.value), true); const xs = v => left + ((v-min)/(max-min))*cw; for (let i=0;i<=4;i++){ const val=min+(max-min)*i/4; const gx=xs(val); svg.insertAdjacentHTML('beforeend', `<line class="gridline" x1="${gx}" x2="${gx}" y1="${top}" y2="${h-bottom}"></line><text class="tick-label" x="${gx}" y="${h-bottom+18}" text-anchor="middle">${fmt(val,unit)}</text>`); } if (min < 0 && max > 0) svg.insertAdjacentHTML('beforeend', `<line class="zero-line" x1="${xs(0)}" x2="${xs(0)}" y1="${top}" y2="${h-bottom}"></line>`); const step = ch / plot.length, bh = Math.min(26, step*0.66); const zero = Math.max(min, Math.min(max, 0)); const x0 = xs(zero); plot.forEach((d,i)=>{ const y = top + step*i + (step-bh)/2; const xv = xs(d.value); const bx = Math.min(x0, xv), bwd = Math.max(1.5, Math.abs(xv - x0)); svg.insertAdjacentHTML('beforeend', `<rect class="bar${i%2?' alt':''}" x="${bx}" y="${y}" width="${bwd}" height="${bh}" rx="3"><title>${esc(d.label)}: ${fmt(d.value,unit)}</title></rect>`); const cap = Math.max(4, Math.floor((left-14)/6.2)); const lbl = d.label.length > cap ? d.label.slice(0,cap-1).trimEnd()+'\u2026' : d.label; svg.insertAdjacentHTML('beforeend', `<text class="tick-label" x="${left-8}" y="${y+bh/2+4}" text-anchor="end"><title>${esc(d.label)}</title>${esc(lbl)}</text>`); if (plot.length <= 24) { const vx = d.value>=zero ? xv+5 : xv-5; const anch = d.value>=zero?'start':'end'; svg.insertAdjacentHTML('beforeend', `<text class="bar-label" x="${vx}" y="${y+bh/2+4}" text-anchor="${anch}">${fmt(d.value,unit)}</text>`); } }); if (unit) svg.insertAdjacentHTML('beforeend', `<text class="axis-title" x="${left+cw/2}" y="${h-6}" text-anchor="middle">${esc(unit)}</text>`); }
+function renderBar(data, svg, w, h) {
     const top = 28, right = 28, bottom = 112, left = 78;
     const cw = w-left-right, ch = h-top-bottom;
     let plot = data.slice();
@@ -331,7 +335,7 @@ const PPL_INDICATOR_MANIFEST = {"version":"2026-07-07-substantive-chart-options-
       svg.insertAdjacentHTML('beforeend', `<rect class="bar${i%2?' alt':''}" x="${x}" y="${yBar}" width="${bw}" height="${height}" rx="3"><title>${esc(d.label)}: ${fmt(d.value,unit)}</title></rect>`);
       if (plot.length <= 18) {
         const lx = x + bw/2, ly = h - bottom + 32;
-        svg.insertAdjacentHTML('beforeend', `<text class="tick-label" x="${lx}" y="${ly}" transform="rotate(45 ${lx} ${ly})" text-anchor="start">${esc(d.label.slice(0,28))}</text>`);
+        drawTick(svg, lx, ly, d.label, cw/plot.length, w);
       }
     });
   }
@@ -355,7 +359,7 @@ const PPL_INDICATOR_MANIFEST = {"version":"2026-07-07-substantive-chart-options-
       }
       svg.insertAdjacentHTML('beforeend', `<circle class="dot-point" cx="${x}" cy="${y}" r="5" fill="${color}"><title>${esc(d.label)}: ${fmt(d.value,unit)}${d.lower!=null?' ['+fmt(d.lower,unit)+', '+fmt(d.upper,unit)+']':''}</title></circle>`);
       const lx = x, ly = h - bottom + 32;
-      svg.insertAdjacentHTML('beforeend', `<text class="tick-label" x="${lx}" y="${ly}" transform="rotate(35 ${lx} ${ly})" text-anchor="start">${esc(d.label.slice(0,24))}</text>`);
+      drawTick(svg, lx, ly, d.label, step, w);
     });
   }
   function renderScatter(data, svg, w, h) {
