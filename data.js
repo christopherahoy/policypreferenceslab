@@ -82,6 +82,8 @@ const LAB = {
 
     {
       id: "fossil-fuel-subsidies",
+      featuredRank: 1,
+      finding: "Public support for eliminating fossil fuel subsidies is very high if the money saved is used on alternative policies, such as improved public services.",
       title: "Attitudes towards reducing fossil fuel subsidies: Evidence across 12 middle-income countries",
       authors: "Christopher Hoy, Yeon Soo Kim, Minh Cong Nguyen, Mariano Sosa & Sailesh Tiwari",
       outlet: "Journal of Development Economics",
@@ -95,6 +97,8 @@ const LAB = {
     },
     {
       id: "progressivity-tax-morale",
+      featuredRank: 5,
+      finding: "People are more willing to pay tax when the tax system is more progressive, and less willing when it is less progressive.",
       title: "How does progressivity impact tax morale? Experimental evidence across developing countries",
       authors: "Christopher Hoy",
       outlet: "Journal of Development Economics",
@@ -186,6 +190,8 @@ const LAB = {
     },
     {
       id: "redistribution-ten",
+      featuredRank: 3,
+      finding: "Almost everyone thinks they are middle-class, but this doesn’t change their support for redistributive policies.",
       title: "Why are relatively poor people not more supportive of redistribution? Evidence from a randomized survey experiment across ten countries",
       authors: "Christopher Hoy & Franziska Mager",
       outlet: "American Economic Journal: Economic Policy",
@@ -229,6 +235,8 @@ const LAB = {
 
     {
       id: "horizontal-equity",
+      featuredRank: 2,
+      finding: "Citizens are concerned about the unfair tax burden on employees compared to the self-employed, but this doesn’t impact their policy preferences.",
       title: "Horizontal equity of taxation: Citizen beliefs and policy preferences",
       authors: "Pierre Bachas, Christopher Hoy, Anders Jensen & Mahvish Shaukat",
       outlet: "World Bank Policy Research Working Paper",
@@ -243,6 +251,8 @@ const LAB = {
     },
     {
       id: "poverty-mortality",
+      featuredRank: 4,
+      finding: "Most people would prefer to live considerably shorter lives with higher incomes, and standard cost-benefit analyses miss this.",
       title: "For shorter or poorer: Attitudes toward the trade-off between poverty and mortality",
       authors: "Benoit Decerf, Christopher Hoy & Olivier Sterck",
       outlet: "IFS Working Paper",
@@ -365,6 +375,8 @@ const LAB = {
     },
     {
       id: "polarization",
+      featuredRank: 6,
+      finding: "Accurate information about wage inequality increases support for redistribution among far-right voters.",
       title: "Political polarization, wage inequality and preferences for redistribution",
       authors: "Christopher Hoy, Lionel Page, Catherine Eckel, Philip Grossman & Daniel Goldstein",
       outlet: "Revise & resubmit, Journal of Economic Behavior and Organization",

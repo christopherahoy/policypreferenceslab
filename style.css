@@ -287,3 +287,8 @@ footer .btn:hover{background:var(--ochre-h);color:#14262e;transform:translateY(-
 .wordmark{display:flex;align-items:center}
 .logoimg{height:40px;width:auto;display:block;mix-blend-mode:multiply}
 @media (max-width:640px){ .logoimg{height:32px} }
+
+/* findings-first featured cards */
+.card .c-find{font:600 17px/1.42 var(--body);color:var(--ink);margin:10px 0 10px}
+.card h3.c-sub{font:500 13.5px/1.45 var(--body);margin:0 0 6px}
+.card h3.c-sub a{color:#51636c}

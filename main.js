@@ -75,23 +75,24 @@
   const cardsEl = document.getElementById("featuredcards");
   if (cardsEl) {
     const featured = LAB.studies.filter(function (s) { return s.featured; })
-      .sort(function (a, b) { return b.year - a.year; });
+      .sort(function (a, b) { return (a.featuredRank || 99) - (b.featuredRank || 99) || b.year - a.year; });
     cardsEl.innerHTML = featured.map(function (s) {
       const codes = (s.countries || []);
-      const shown = codes.slice(0, 4).join(" · ");
-      const extra = codes.length > 4 ? " · +" + (codes.length - 4) : "";
-      const cline = codes.length
-        ? '<div class="c-countries"><b>' + shown + extra + "</b></div>"
-        : '<div class="c-countries">Global analysis</div>';
+      const cnames = codes.map(function (c) { return (LAB.countryNames || {})[c] || c; });
+      const cline = !codes.length
+        ? '<div class="c-countries">Global analysis</div>'
+        : codes.length > 4
+          ? '<div class="c-countries" title="' + esc(cnames.join(", ")) + '"><b>' + codes.length + ' countries</b></div>'
+          : '<div class="c-countries" title="' + esc(cnames.join(", ")) + '"><b>' + esc(cnames.join(" \u00b7 ")) + '</b></div>';
       const title = s.url
         ? '<a href="' + esc(s.url) + '">' + esc(s.title) + "</a>"
         : esc(s.title);
       return (
         '<article class="card">' +
         '<div class="c-theme">' + esc((s.themes || [])[0] || "Research") + "</div>" +
-        "<h3>" + title + "</h3>" +
-        '<div class="c-authors">' + esc(s.authors) + "</div>" +
-        '<div class="c-outlet"><em>' + esc(s.outlet) + "</em> · " + s.year + "</div>" +
+        (s.finding ? '<p class="c-find">' + esc(s.finding) + "</p>" : "") +
+        '<h3 class="' + (s.finding ? "c-sub" : "") + '">' + title + "</h3>" +
+                '<div class="c-outlet"><em>' + esc(s.outlet) + "</em> · " + s.year + "</div>" +
         cline +
         "</article>"
       );
