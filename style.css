@@ -116,6 +116,8 @@ a:hover{color:var(--ochre)}
 .maplegend{display:flex;gap:20px;margin-top:16px;flex-wrap:wrap}
 .key{font:500 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#8fa39b;
   display:flex;align-items:center;gap:8px;border:1px solid rgba(232,228,216,.14);border-radius:99px;padding:7px 13px}
+.maplegend .key-sel{display:none}
+body.has-map-selection .maplegend .key-sel{display:flex}
 .sw{width:10px;height:10px;border-radius:3px;display:inline-block}
 .s-active{background:var(--ochre);box-shadow:0 0 6px rgba(217,142,4,.8)}
 .s-sel{background:#f7f3e6;box-shadow:0 0 6px rgba(247,243,230,.8)}
@@ -252,6 +254,7 @@ footer .btn:hover{background:var(--ochre-h);color:#14262e;transform:translateY(-
 .chip.dim{opacity:.32;pointer-events:none}
 #worldmap .micro.off{display:none}
 .stat.counting{align-self:end}
+.stat.counting::before{display:none}
 .cnote{font:italic 600 21px/1 var(--disp);color:var(--ochre);padding-bottom:8px}
 #themesrow .theme-tag{cursor:pointer;transition:all .15s ease}
 #themesrow .theme-tag:hover{border-color:var(--ochre);color:var(--ink)}

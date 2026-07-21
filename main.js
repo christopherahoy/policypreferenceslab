@@ -232,6 +232,7 @@
   function select(iso) {
     if (iso && !inTheme(iso)) return;
     selected = iso;
+    document.body.classList.toggle("has-map-selection", !!iso);
     svg.querySelectorAll(".selected").forEach(function (el) { el.classList.remove("selected"); });
     if (chipsEl) chipsEl.querySelectorAll(".chip.on").forEach(function (el) { el.classList.remove("on"); });
     if (iso) {
