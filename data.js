@@ -85,6 +85,7 @@ const LAB = {
 
     {
       id: "fossil-fuel-subsidies",
+      dataPreset: "subsidies",
       image: "https://images.unsplash.com/photo-1695561324569-5e47c76dc0a3?auto=format&fit=crop&w=640&h=400&q=60",
       imageCredit: "Hans Eiskonen / Unsplash",
       blogs: [
@@ -93,7 +94,7 @@ const LAB = {
         { label: "World Bank Blogs", year: 2023, title: "Building support for energy subsidy reform: what will it take?", url: "https://blogs.worldbank.org/en/energy/building-support-energy-subsidy-reform-what-will-it-take" },
       ],
       featuredRank: 1,
-      finding: "Public support for eliminating fossil fuel subsidies is very high if the money saved is used on alternative policies, such as improved public services.",
+      finding: "Only around 30% of people support cutting fossil fuel subsidies on their own — support rises above 95% when the savings fund public services, cash transfers or tax cuts.",
       title: "Attitudes towards reducing fossil fuel subsidies: Evidence across 12 middle-income countries",
       authors: "Christopher Hoy, Yeon Soo Kim, Minh Cong Nguyen, Mariano Sosa & Sailesh Tiwari",
       outlet: "Journal of Development Economics",
@@ -107,6 +108,7 @@ const LAB = {
     },
     {
       id: "progressivity-tax-morale",
+      dataPreset: "taxmorale",
       image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=640&h=400&q=60",
       imageCredit: "Kelly Sikkema / Unsplash",
       blogs: [
@@ -114,7 +116,7 @@ const LAB = {
         { label: "World Bank Blogs", year: 2022, title: "Why does the progressivity of taxes matter?", url: "https://blogs.worldbank.org/en/governance/why-does-progressivity-taxes-matter" },
       ],
       featuredRank: 5,
-      finding: "People are more willing to pay tax when the tax system is more progressive, and less willing when it is less progressive.",
+      finding: "People become more willing to pay tax when they learn their tax system is progressive — and less willing when they learn it is not.",
       title: "How does progressivity impact tax morale? Experimental evidence across developing countries",
       authors: "Christopher Hoy",
       outlet: "Journal of Development Economics",
@@ -233,6 +235,7 @@ const LAB = {
     },
     {
       id: "redistribution-ten",
+      dataPreset: "redistribution",
       image: "https://images.unsplash.com/photo-1768822855306-543f47d239e5?auto=format&fit=crop&w=640&h=400&q=60",
       imageCredit: "Zoshua Colah / Unsplash",
       blogs: [
@@ -242,7 +245,7 @@ const LAB = {
         { label: "World Bank Blogs", year: 2018, title: "Why are relatively poor people not more supportive of redistribution? Guest Post by Christopher Hoy", url: "https://blogs.worldbank.org/en/impactevaluations/why-are-relatively-poor-people-not-more-supportive-redistribution-guest-post-christopher-hoy" },
       ],
       featuredRank: 3,
-      finding: "Almost everyone thinks they are middle-class, but this doesn’t change their support for redistributive policies.",
+      finding: "Almost everyone places themselves near the middle of the income distribution — and learning they are poorer than they thought does not increase support for redistribution.",
       title: "Why are relatively poor people not more supportive of redistribution? Evidence from a randomized survey experiment across ten countries",
       authors: "Christopher Hoy & Franziska Mager",
       outlet: "American Economic Journal: Economic Policy",
@@ -297,13 +300,14 @@ const LAB = {
 
     {
       id: "horizontal-equity",
+      dataPreset: "equity",
       image: "https://images.unsplash.com/photo-1532009877282-3340270e0529?auto=format&fit=crop&w=640&h=400&q=60",
       imageCredit: "Sean Stratton / Unsplash",
       blogs: [
         { label: "World Bank Blogs", year: 2026, title: "The hidden unfairness in your tax system and how to fix it", url: "https://blogs.worldbank.org/en/developmenttalk/the-hidden-unfairness-in-your-tax-system-and-how-to-fix-it" },
       ],
       featuredRank: 2,
-      finding: "Citizens are concerned about the unfair tax burden on employees compared to the self-employed, but this doesn’t impact their policy preferences.",
+      finding: "Employees often pay substantially more tax than self-employed people earning the same income. Citizens across six countries see this as unfair — though it doesn’t change which taxes they prefer.",
       title: "Horizontal equity of taxation: Citizen beliefs and policy preferences",
       authors: "Pierre Bachas, Christopher Hoy, Anders Jensen & Mahvish Shaukat",
       outlet: "World Bank Policy Research Working Paper",
@@ -321,7 +325,7 @@ const LAB = {
       image: "https://images.unsplash.com/photo-1578923931302-7fd9b3495be7?auto=format&fit=crop&w=640&h=400&q=60",
       imageCredit: "Alexandar Todov / Unsplash",
       featuredRank: 4,
-      finding: "Most people would prefer to live considerably shorter lives with higher incomes, and standard cost-benefit analyses miss this.",
+      finding: "Most people would prefer considerably shorter lives with higher incomes — a trade-off that standard cost-benefit analysis misses.",
       title: "For shorter or poorer: Attitudes toward the trade-off between poverty and mortality",
       authors: "Benoit Decerf, Christopher Hoy & Olivier Sterck",
       outlet: "IFS Working Paper",

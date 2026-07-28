@@ -79,11 +79,19 @@
     cardsEl.innerHTML = featured.map(function (s) {
       const codes = (s.countries || []);
       const cnames = codes.map(function (c) { return (LAB.countryNames || {})[c] || c; });
-      const cline = !codes.length
-        ? '<div class="c-countries">Global analysis</div>'
-        : codes.length > 4
-          ? '<div class="c-countries" title="' + esc(cnames.join(", ")) + '"><b>' + codes.length + ' countries</b></div>'
-          : '<div class="c-countries" title="' + esc(cnames.join(", ")) + '"><b>' + esc(cnames.join(" \u00b7 ")) + '</b></div>';
+      const countriesLabel = !codes.length ? "Global analysis"
+        : codes.length === 1 ? cnames[0]
+        : codes.length + " countries";
+      const respMatch = (s.sample || "").match(/([~\d,]+\+?)\s*respondents/);
+      const metaParts = [];
+      if (respMatch) metaParts.push(respMatch[1].replace("~", "\u2248") + " respondents");
+      metaParts.push(countriesLabel);
+      const meta = '<div class="c-meta" title="' + esc(cnames.join(", ")) + '">' + esc(metaParts.join(" \u00b7 ")) + "</div>";
+      const explore = "data.html" + (s.dataPreset ? "?preset=" + s.dataPreset : "#explorer");
+      const ctas = '<div class="c-ctas">' +
+        '<a href="' + explore + '">Explore the data \u2192</a>' +
+        (s.url ? '<a href="' + esc(s.url) + '">Read the paper \u2192</a>' : "") +
+        "</div>";
       const title = s.url
         ? '<a href="' + esc(s.url) + '">' + esc(s.title) + "</a>"
         : esc(s.title);
@@ -93,7 +101,8 @@
         (s.finding ? '<p class="c-find">' + esc(s.finding) + "</p>" : "") +
         '<h3 class="' + (s.finding ? "c-sub" : "") + '">' + title + "</h3>" +
                 '<div class="c-outlet"><em>' + esc(s.outlet) + "</em> · " + s.year + "</div>" +
-        cline +
+        meta +
+        ctas +
         "</article>"
       );
     }).join("");

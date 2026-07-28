@@ -47,6 +47,10 @@
 .data-table td.num{text-align:right;font-family:var(--mono);font-weight:600}
 .data-table td.note{color:var(--mut);font-size:11.5px;min-width:230px}
 .source-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.evgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.ev-steps{margin:10px 0 12px;padding-left:20px;font-size:13.5px;color:var(--mut);line-height:1.9}
+.ev-note{font-size:13px;color:var(--mut);margin:0 0 10px}
+@media(max-width:940px){.evgrid{grid-template-columns:1fr}}
 @media(max-width:940px){.data-grid{grid-template-columns:1fr}.builder-panel{position:static}.source-list{grid-template-columns:1fr}.chart-card{min-height:0}#pplchart{height:340px}}
 /* dataset status pills */
 .source-pill{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}
@@ -88,7 +92,7 @@ details.builder-note[open] summary{margin-bottom:6px}
     <a class="wordmark" href="index.html"><img src="logo.png" alt="Policy Preferences Lab" class="logoimg"></a>
     <nav class="mainnav" aria-label="Main">
       <a href="index.html#about">About</a>
-      <a href="index.html#map">Where we work</a>
+      <a href="evidence-to-policy.html">From evidence to policy</a>
       <a href="data.html" class="current">Explore the data</a>
       <a href="research.html">Publications</a>
       <a href="research-network.html">Research Network</a>
@@ -101,11 +105,11 @@ details.builder-note[open] summary{margin-bottom:6px}
 
   <section class="pagehead">
     <div class="wrap">
-      <div class="eyebrow">Data</div>
-      <h1>Explore the data</h1>
-      <p class="lede">Explore the Policy Preferences Lab&rsquo;s datasets. Download the full
-        replication packages. Build and export charts using the interactive data visualisation
-        tool.</p>
+      <div class="eyebrow">Findings &amp; data</div>
+      <h1>Explore what people think&thinsp;&mdash;&thinsp;and what changes their views</h1>
+      <p class="lede">Explore results from the Lab&rsquo;s surveys and randomized experiments.
+        Compare responses across countries and population groups, build and export charts, and
+        access the papers and replication materials behind each finding.</p>
     </div>
   </section>
 
@@ -115,7 +119,7 @@ details.builder-note[open] summary{margin-bottom:6px}
       <div class="featcharts" id="featcharts">
         <article class="fc-card">
           <svg viewBox="0 0 120 34" class="fc-spark" aria-hidden="true"><path d="M10 28 V12 M34 28 V8 M58 28 V15 M82 28 V10 M106 28 V13" stroke="var(--ochre)" stroke-width="7" stroke-linecap="round"/></svg>
-          <p class="fc-find">Public support for eliminating fossil fuel subsidies is very high if the money saved is used on alternative policies, such as improved public services.</p>
+          <p class="fc-find">Support for cutting fossil fuel subsidies rises from around 30% to more than 95% when the savings fund public services, cash transfers or tax cuts.</p>
           <div class="fc-src">Fossil fuel subsidies</div>
           <button type="button" onclick="pplPreset('Fossil fuel subsidies','Baseline conditional support by country','Supports subsidy reduction if savings fund schools, hospitals and roads')">View interactive chart →</button>
         </article>
@@ -188,6 +192,29 @@ details.builder-note[open] summary{margin-bottom:6px}
       </div>
 
       <div class="source-list" id="cb-source-list"></div>
+
+      <div class="evgrid">
+        <article class="source-card">
+          <h4>Build your own chart</h4>
+          <ol class="ev-steps">
+            <li>Select a study.</li>
+            <li>Choose a topic and outcome.</li>
+            <li>Compare countries or population groups.</li>
+            <li>Pick a chart format.</li>
+            <li>Download the chart or the underlying aggregate data.</li>
+          </ol>
+          <p class="ev-note">Every downloadable result carries its source, sample, estimation
+            method and associated research paper.</p>
+        </article>
+        <article class="source-card">
+          <h4>Use the evidence</h4>
+          <p class="ev-note">Researchers, policymakers and journalists are welcome to use charts
+            and aggregate results with attribution to the Policy Preferences Lab and the
+            underlying study.</p>
+          <p class="ev-note">For questions about particular studies, additional analysis or
+            collaboration, <a href="#contact">contact the Lab</a>.</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -519,7 +546,8 @@ function renderBar(data, svg, w, h) {
 
 
 window.addEventListener('resize', function(){ if (window.pplRender) window.pplRender(); });
-setTimeout(function(){ if (window.pplPreset) pplPreset('Fossil fuel subsidies','Baseline conditional support by country','Supports subsidy reduction if savings fund schools, hospitals and roads', false); }, 120);
+var PPL_PRESET_LINKS={subsidies:['Fossil fuel subsidies','Baseline conditional support by country','Supports subsidy reduction if savings fund schools, hospitals and roads'],taxmorale:['Tax morale and progressivity','Figure 3 treatment effects with confidence intervals',''],redistribution:['Redistribution across 10 countries','Income-rank misperceptions by country',''],equity:['Horizontal equity of taxation','Treatment effect by country (Figures D4\u2013D5)','Perceived unfairness index']};
+setTimeout(function(){ if (!window.pplPreset) return; var pr=null; try{ pr=new URLSearchParams(location.search).get('preset'); }catch(e){} var t=pr&&PPL_PRESET_LINKS[pr]; if(t){ pplPreset(t[0],t[1],t[2],true); } else { pplPreset('Fossil fuel subsidies','Baseline conditional support by country','Supports subsidy reduction if savings fund schools, hospitals and roads', false); } }, 120);
 </script>
 <script src="data.js"></script>
 <script src="research.js"></script>
