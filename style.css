@@ -314,3 +314,11 @@ li.has-thumb{display:flex;gap:20px;align-items:flex-start}
   li.has-thumb{flex-direction:column;gap:12px}
   .pub-thumb{flex:none;width:100%;max-width:340px}
 }
+
+/* ---------------- about: evidence-to-policy callout ---------------- */
+.policy-callout{margin-top:44px;border-top:1px solid var(--line);padding-top:30px;
+  display:flex;gap:34px;align-items:center;justify-content:space-between}
+.policy-callout h3{font:600 24px/1.2 var(--disp);margin:0 0 10px}
+.policy-callout p{font-size:15px;color:var(--mut);max-width:62ch;margin:0}
+.policy-callout .btn{flex:0 0 auto;white-space:nowrap}
+@media(max-width:760px){.policy-callout{flex-direction:column;align-items:flex-start;gap:18px}}
