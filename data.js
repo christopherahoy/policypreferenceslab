@@ -82,6 +82,11 @@ const LAB = {
 
     {
       id: "fossil-fuel-subsidies",
+      blogs: [
+        { label: "Devpolicy Blog", year: 2026, title: "How households cope and what they want when energy prices rise", url: "https://devpolicy.org/how-households-cope-and-what-they-want-when-energy-prices-rise-20260622/" },
+        { label: "World Bank Blogs", year: 2024, title: "Stop subsidizing asteroids: How to persuade people that governments should stop subsidizing fossil fuels", url: "https://blogs.worldbank.org/en/developmenttalk/stop-subsidizing-asteroids--how-to-persuade-people-that-governme" },
+        { label: "World Bank Blogs", year: 2023, title: "Building support for energy subsidy reform: what will it take?", url: "https://blogs.worldbank.org/en/energy/building-support-energy-subsidy-reform-what-will-it-take" },
+      ],
       featuredRank: 1,
       finding: "Public support for eliminating fossil fuel subsidies is very high if the money saved is used on alternative policies, such as improved public services.",
       title: "Attitudes towards reducing fossil fuel subsidies: Evidence across 12 middle-income countries",
@@ -97,6 +102,10 @@ const LAB = {
     },
     {
       id: "progressivity-tax-morale",
+      blogs: [
+        { label: "VoxDev", year: 2025, title: "How progressive taxation affects tax compliance in developing countries", url: "https://voxdev.org/topic/public-economics/how-progressive-taxation-affects-tax-compliance-developing-countries" },
+        { label: "World Bank Blogs", year: 2022, title: "Why does the progressivity of taxes matter?", url: "https://blogs.worldbank.org/en/governance/why-does-progressivity-taxes-matter" },
+      ],
       featuredRank: 5,
       finding: "People are more willing to pay tax when the tax system is more progressive, and less willing when it is less progressive.",
       title: "How does progressivity impact tax morale? Experimental evidence across developing countries",
@@ -112,6 +121,9 @@ const LAB = {
     },
     {
       id: "vaccines-zambia",
+      blogs: [
+        { label: "World Bank Blogs", year: 2022, title: "Three things we learnt about COVID-19 vaccine acceptance and intra-household dynamics in Zambia", url: "https://blogs.worldbank.org/en/developmenttalk/three-things-we-learnt-about-covid-19-vaccine-acceptance-and-intra-household" },
+      ],
       title: "Intra-household dynamics and attitudes towards vaccines: Experimental and survey evidence from Zambia",
       authors: "Christopher Hoy, Rajalakshmi Kanagavel & Corey Cameron",
       outlet: "Review of Economics of the Household",
@@ -125,6 +137,9 @@ const LAB = {
     },
     {
       id: "false-divide",
+      blogs: [
+        { label: "Austaxpolicy", year: 2019, title: "[Budget Forum 2019] Coalition and Labor Voters Share Policy Priorities When They Are Informed About Inequality", url: "https://www.austaxpolicy.com/budget-forum-2019-coalition-labor-voters-share-policy-priorities-informed-inequality/" },
+      ],
       title: "A false divide? Providing information about inequality aligns preferences for redistribution between right- and left-wing voters",
       authors: "Christopher Hoy, Russell Toth & Nurina Merdikawati",
       outlet: "Journal of Economic Inequality",
@@ -138,6 +153,9 @@ const LAB = {
     },
     {
       id: "indonesia-inequality-voting",
+      blogs: [
+        { label: "FKP Indonesia", year: 2018, title: "FKP at Article 33: How do Indonesians' perception of inequality shape their support for redistribution?", url: "https://www.fkpindonesia.org/summary-report/fkp-at-article-33-how-do-indonesians-perception-of-inequality-shape-their-support-for-redistribution" },
+      ],
       title: "How does information about inequality shape voting intentions and preferences for redistribution? Evidence from a randomized survey experiment in Indonesia",
       authors: "Christopher Hoy, Russell Toth & Nurina Merdikawati",
       outlet: "Journal of Behavioral and Experimental Economics",
@@ -151,6 +169,9 @@ const LAB = {
     },
     {
       id: "aid-popularity",
+      blogs: [
+        { label: "Devpolicy Blog", year: 2019, title: "What's more effective in raising support for aid, kindness or the national interest?", url: "https://www.devpolicy.org/whats-more-effective-in-raising-support-for-aid-20190110/" },
+      ],
       title: "Helping us or helping them? What makes foreign aid popular with donor publics?",
       authors: "Terence Wood & Christopher Hoy",
       outlet: "Economic Development and Cultural Change",
@@ -177,6 +198,9 @@ const LAB = {
     },
     {
       id: "vaccine-hesitancy",
+      blogs: [
+        { label: "World Bank Blogs", year: 2021, title: "The drivers of COVID-19 vaccine hesitancy and how to address them: Evidence from Papua New Guinea", url: "https://blogs.worldbank.org/en/developmenttalk/drivers-covid-19-vaccine-hesitancy-and-how-address-them-evidence-papua-new-guinea" },
+      ],
       title: "Addressing vaccine hesitancy in developing countries: Survey and experimental evidence",
       authors: "Christopher Hoy, Terence Wood & Ellen Moscoe",
       outlet: "PLOS ONE",
@@ -190,6 +214,12 @@ const LAB = {
     },
     {
       id: "redistribution-ten",
+      blogs: [
+        { label: "AEA Research Highlights", year: 2021, title: "Against their financial interests (Featured Chart)", url: "https://www.aeaweb.org/research/charts/redistribution-support-low-income" },
+        { label: "Devpolicy Blog", year: 2019, title: "Why are relatively poor people not more supportive of redistribution?", url: "https://devpolicy.org/why-are-relatively-poor-people-not-more-supportive-of-redistribution-20190122/" },
+        { label: "From Poverty to Power", year: 2019, title: "No Matter Where You Live, the World is More Unequal Than You Realise, according to new research", url: "https://frompoverty.oxfam.org.uk/no-matter-where-you-live-the-world-is-more-unequal-than-you-realise-according-to-new-research/" },
+        { label: "World Bank Blogs", year: 2018, title: "Why are relatively poor people not more supportive of redistribution? Guest Post by Christopher Hoy", url: "https://blogs.worldbank.org/en/impactevaluations/why-are-relatively-poor-people-not-more-supportive-redistribution-guest-post-christopher-hoy" },
+      ],
       featuredRank: 3,
       finding: "Almost everyone thinks they are middle-class, but this doesn’t change their support for redistributive policies.",
       title: "Why are relatively poor people not more supportive of redistribution? Evidence from a randomized survey experiment across ten countries",
@@ -206,6 +236,9 @@ const LAB = {
     },
     {
       id: "american-exceptionalism",
+      blogs: [
+        { label: "Social Science Space", year: 2022, title: "Connecting Academia and Civil Society: Walking an Impact Tightrope", url: "https://www.socialsciencespace.com/2022/03/connecting-academia-and-civil-society-walking-an-impact-tightrope/" },
+      ],
       title: "American exceptionalism? Differences in the elasticity of preferences for redistribution between the United States and Western Europe",
       authors: "Christopher Hoy & Franziska Mager",
       outlet: "Journal of Economic Behavior and Organization",
@@ -219,6 +252,10 @@ const LAB = {
     },
     {
       id: "geostrategic-aid",
+      blogs: [
+        { label: "Devpolicy Blog", year: 2019, title: "Does Chinese aid make Australians more generous?", url: "https://devpolicy.org/does-chinese-aid-make-australians-more-generous-20190814/" },
+        { label: "Lowy Institute", year: 2019, title: "Does Chinese aid make Australians more generous?", url: "https://www.lowyinstitute.org/the-interpreter/does-chinese-aid-make-australians-more-generous" },
+      ],
       title: "The effect of geostrategic competition on public attitudes to aid",
       authors: "Terence Wood, Christopher Hoy & Jonathan Pryke",
       outlet: "Journal of Experimental Political Science",
@@ -235,6 +272,9 @@ const LAB = {
 
     {
       id: "horizontal-equity",
+      blogs: [
+        { label: "World Bank Blogs", year: 2026, title: "The hidden unfairness in your tax system and how to fix it", url: "https://blogs.worldbank.org/en/developmenttalk/the-hidden-unfairness-in-your-tax-system-and-how-to-fix-it" },
+      ],
       featuredRank: 2,
       finding: "Citizens are concerned about the unfair tax burden on employees compared to the self-employed, but this doesn’t impact their policy preferences.",
       title: "Horizontal equity of taxation: Citizen beliefs and policy preferences",
@@ -309,6 +349,9 @@ const LAB = {
     },
     {
       id: "econ-reforms",
+      blogs: [
+        { label: "World Bank Blogs", year: 2025, title: "Design, more than cost drives public support for economic reforms", url: "https://blogs.worldbank.org/en/developmenttalk/design--more-than-cost-drives-public-support-for-economic-reform" },
+      ],
       title: "Public preferences for economic reforms",
       authors: "Christopher Hoy, Yeon Soo Kim, Saad Imtiaz, Ana Maria Rojas Mendez, Moritz Meyer, Gustavo Canavire Bacarreza, Lydia Kim, William Seitz, Imane Helmy, Ikuko Uochi, Sering Touray, Juni Singh, Bambang Suharnoko Sjahrir, Utz Pape, Alan Fuchs, Trang Nguyen, Defne Gencer, Min A Lee, Akiko Sagesaka & Ivette Contreras",
       outlet: "World Bank Policy Research Working Paper",
@@ -375,6 +418,11 @@ const LAB = {
     },
     {
       id: "polarization",
+      blogs: [
+        { label: "The Conversation", year: 2026, title: "Real wages have gone backwards. Even earning $100,000 isn't what it used to be", url: "https://theconversation.com/real-wages-have-gone-backwards-even-earning-100-000-isnt-what-it-used-to-be-276169" },
+        { label: "LSE Inequalities", year: 2025, title: "Revealing the wage gap makes far-right voters much more supportive of redistribution", url: "https://blogs.lse.ac.uk/inequalities/2025/10/08/far-right-voters-and-support-for-redistribution/" },
+        { label: "Inequality.org", year: 2025, title: "When Far-Right Voters Learn Wage Inequality Facts, Their Support for Policy Solutions Jumps", url: "https://inequality.org/article/far-right-voters-wage-inequality/" },
+      ],
       featuredRank: 6,
       finding: "Accurate information about wage inequality increases support for redistribution among far-right voters.",
       title: "Political polarization, wage inequality and preferences for redistribution",
@@ -390,6 +438,10 @@ const LAB = {
     },
     {
       id: "indonesia-tax-evasion",
+      blogs: [
+        { label: "Devpolicy Blog", year: 2024, title: "Revealing the depth and breadth of tax evasion in Indonesia", url: "https://devpolicy.org/revealing-the-depth-and-breadth-of-tax-evasion-in-indonesia-20241010/" },
+        { label: "VoxDev", year: 2024, title: "Revealing tax evasion by firms", url: "https://voxdev.org/topic/public-economics/revealing-tax-evasion-firms" },
+      ],
       title: "Revealing tax evasion: Experimental evidence from a nationally representative survey of Indonesian firms",
       authors: "Christopher Hoy, Filip Jolevski & Anthony Obeyesekere",
       outlet: "Revise & resubmit, Journal of Economic Behavior and Organization",

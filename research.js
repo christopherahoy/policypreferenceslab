@@ -21,6 +21,15 @@
     return tags.length ? '<div class="pub-tags">' + tags.join("") + "</div>" : "";
   }
 
+  function blogrow(s) {
+    if (!s.blogs || !s.blogs.length) return "";
+    const links = s.blogs.map(function (b) {
+      return '<a href="' + esc(b.url) + '" title="' + esc(b.title) + '">' +
+        esc(b.label) + " (" + b.year + ")</a>";
+    }).join('<span class="pb-sep"> · </span>');
+    return '<div class="pub-blogs"><span class="pb-label">Blogs &amp; media</span>' + links + "</div>";
+  }
+
   function item(s) {
     const title = s.url
       ? '<a href="' + esc(s.url) + '">' + esc(s.title) + "</a>"
@@ -30,6 +39,7 @@
       '<div class="pub-title">' + title + "</div>" +
       '<div class="pub-authors">' + esc(s.authors) + "</div>" +
       '<div class="pub-outlet"><em>' + esc(s.outlet) + "</em> · " + s.year + "</div>" +
+      blogrow(s) +
       ctags(s) +
       "</li>"
     );

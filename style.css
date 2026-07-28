@@ -211,6 +211,10 @@ footer .btn:hover{background:var(--ochre-h);color:#14262e;transform:translateY(-
 .pub-title a:hover{color:var(--teal)}
 .pub-authors{font-size:13.5px;color:var(--mut);margin-top:5px}
 .pub-outlet{font-size:13px;color:var(--faint);margin-top:3px}
+.pub-blogs{margin-top:7px;font-size:12.5px;color:var(--faint)}
+.pub-blogs .pb-label{font:600 9.5px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);margin-right:10px}
+.pub-blogs a{color:var(--teal);border-bottom:1px solid rgba(22,112,127,.35);padding-bottom:1px}
+.pub-blogs .pb-sep{color:var(--faint)}
 .pub-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
 .ctag{font:500 10.5px/1 var(--mono);letter-spacing:.06em;color:var(--teal);
   border:1px solid rgba(22,112,127,.35);border-radius:99px;padding:5px 11px;background:#fff}
