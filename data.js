@@ -22,6 +22,9 @@
                catalogue but not on the map.
      sample    short line about the data, or null
      featured  true to show on the homepage (aim for 5–6 featured)
+     image     photo URL for the thumbnail on research.html (Unsplash hotlink
+               or a local path like "images/study.jpg"), optional
+     imageCredit  photographer credit shown on hover, optional
 
    ISO3 codes must match the map. Common ones used here:
    AGO Angola · ARG Argentina · AUS Australia · BGD Bangladesh · BOL Bolivia
@@ -82,6 +85,8 @@ const LAB = {
 
     {
       id: "fossil-fuel-subsidies",
+      image: "https://images.unsplash.com/photo-1695561324569-5e47c76dc0a3?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Hans Eiskonen / Unsplash",
       blogs: [
         { label: "Devpolicy Blog", year: 2026, title: "How households cope and what they want when energy prices rise", url: "https://devpolicy.org/how-households-cope-and-what-they-want-when-energy-prices-rise-20260622/" },
         { label: "World Bank Blogs", year: 2024, title: "Stop subsidizing asteroids: How to persuade people that governments should stop subsidizing fossil fuels", url: "https://blogs.worldbank.org/en/developmenttalk/stop-subsidizing-asteroids--how-to-persuade-people-that-governme" },
@@ -102,6 +107,8 @@ const LAB = {
     },
     {
       id: "progressivity-tax-morale",
+      image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Kelly Sikkema / Unsplash",
       blogs: [
         { label: "VoxDev", year: 2025, title: "How progressive taxation affects tax compliance in developing countries", url: "https://voxdev.org/topic/public-economics/how-progressive-taxation-affects-tax-compliance-developing-countries" },
         { label: "World Bank Blogs", year: 2022, title: "Why does the progressivity of taxes matter?", url: "https://blogs.worldbank.org/en/governance/why-does-progressivity-taxes-matter" },
@@ -121,6 +128,8 @@ const LAB = {
     },
     {
       id: "vaccines-zambia",
+      image: "https://images.unsplash.com/photo-1666732566977-8805c13a6ce2?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Eston Oboch / Unsplash",
       blogs: [
         { label: "World Bank Blogs", year: 2022, title: "Three things we learnt about COVID-19 vaccine acceptance and intra-household dynamics in Zambia", url: "https://blogs.worldbank.org/en/developmenttalk/three-things-we-learnt-about-covid-19-vaccine-acceptance-and-intra-household" },
       ],
@@ -137,6 +146,8 @@ const LAB = {
     },
     {
       id: "false-divide",
+      image: "https://images.unsplash.com/photo-1510546020578-a35ae9fcfb0f?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Social Estate / Unsplash",
       blogs: [
         { label: "Austaxpolicy", year: 2019, title: "[Budget Forum 2019] Coalition and Labor Voters Share Policy Priorities When They Are Informed About Inequality", url: "https://www.austaxpolicy.com/budget-forum-2019-coalition-labor-voters-share-policy-priorities-informed-inequality/" },
       ],
@@ -153,6 +164,8 @@ const LAB = {
     },
     {
       id: "indonesia-inequality-voting",
+      image: "https://images.unsplash.com/photo-1718729362445-51d2da1ee7a7?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Afif Ramdhasuma / Unsplash",
       blogs: [
         { label: "FKP Indonesia", year: 2018, title: "FKP at Article 33: How do Indonesians' perception of inequality shape their support for redistribution?", url: "https://www.fkpindonesia.org/summary-report/fkp-at-article-33-how-do-indonesians-perception-of-inequality-shape-their-support-for-redistribution" },
       ],
@@ -169,6 +182,8 @@ const LAB = {
     },
     {
       id: "aid-popularity",
+      image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Joel Muniz / Unsplash",
       blogs: [
         { label: "Devpolicy Blog", year: 2019, title: "What's more effective in raising support for aid, kindness or the national interest?", url: "https://www.devpolicy.org/whats-more-effective-in-raising-support-for-aid-20190110/" },
       ],
@@ -185,6 +200,8 @@ const LAB = {
     },
     {
       id: "meritocracy",
+      image: "https://images.unsplash.com/photo-1448454050639-2f8d4bf26975?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Ludde Lorentz / Unsplash",
       title: "How information about economic inequality impacts belief in meritocracy: Evidence from a randomized survey experiment across Australia, Indonesia and Mexico",
       authors: "Jonathan J. B. Mijs & Christopher Hoy",
       outlet: "Social Problems",
@@ -198,6 +215,8 @@ const LAB = {
     },
     {
       id: "vaccine-hesitancy",
+      image: "https://images.unsplash.com/photo-1626351545208-28c9080106ba?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Towfiqu barbhuiya / Unsplash",
       blogs: [
         { label: "World Bank Blogs", year: 2021, title: "The drivers of COVID-19 vaccine hesitancy and how to address them: Evidence from Papua New Guinea", url: "https://blogs.worldbank.org/en/developmenttalk/drivers-covid-19-vaccine-hesitancy-and-how-address-them-evidence-papua-new-guinea" },
       ],
@@ -214,6 +233,8 @@ const LAB = {
     },
     {
       id: "redistribution-ten",
+      image: "https://images.unsplash.com/photo-1768822855306-543f47d239e5?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Zoshua Colah / Unsplash",
       blogs: [
         { label: "AEA Research Highlights", year: 2021, title: "Against their financial interests (Featured Chart)", url: "https://www.aeaweb.org/research/charts/redistribution-support-low-income" },
         { label: "Devpolicy Blog", year: 2019, title: "Why are relatively poor people not more supportive of redistribution?", url: "https://devpolicy.org/why-are-relatively-poor-people-not-more-supportive-of-redistribution-20190122/" },
@@ -236,6 +257,8 @@ const LAB = {
     },
     {
       id: "american-exceptionalism",
+      image: "https://images.unsplash.com/photo-1617858795788-267d5dce5198?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Colin Lloyd / Unsplash",
       blogs: [
         { label: "Social Science Space", year: 2022, title: "Connecting Academia and Civil Society: Walking an Impact Tightrope", url: "https://www.socialsciencespace.com/2022/03/connecting-academia-and-civil-society-walking-an-impact-tightrope/" },
       ],
@@ -252,6 +275,8 @@ const LAB = {
     },
     {
       id: "geostrategic-aid",
+      image: "https://images.unsplash.com/photo-1650509009946-32b00cb21a0a?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Ernests Vaga / Unsplash",
       blogs: [
         { label: "Devpolicy Blog", year: 2019, title: "Does Chinese aid make Australians more generous?", url: "https://devpolicy.org/does-chinese-aid-make-australians-more-generous-20190814/" },
         { label: "Lowy Institute", year: 2019, title: "Does Chinese aid make Australians more generous?", url: "https://www.lowyinstitute.org/the-interpreter/does-chinese-aid-make-australians-more-generous" },
@@ -272,6 +297,8 @@ const LAB = {
 
     {
       id: "horizontal-equity",
+      image: "https://images.unsplash.com/photo-1532009877282-3340270e0529?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Sean Stratton / Unsplash",
       blogs: [
         { label: "World Bank Blogs", year: 2026, title: "The hidden unfairness in your tax system and how to fix it", url: "https://blogs.worldbank.org/en/developmenttalk/the-hidden-unfairness-in-your-tax-system-and-how-to-fix-it" },
       ],
@@ -291,6 +318,8 @@ const LAB = {
     },
     {
       id: "poverty-mortality",
+      image: "https://images.unsplash.com/photo-1578923931302-7fd9b3495be7?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Alexandar Todov / Unsplash",
       featuredRank: 4,
       finding: "Most people would prefer to live considerably shorter lives with higher incomes, and standard cost-benefit analyses miss this.",
       title: "For shorter or poorer: Attitudes toward the trade-off between poverty and mortality",
@@ -307,6 +336,8 @@ const LAB = {
     },
     {
       id: "managers-ai",
+      image: "https://images.unsplash.com/photo-1694903110330-cc64b7e1d21d?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Igor Omilaev / Unsplash",
       title: "Managers as gatekeepers in the age of AI",
       authors: "Christopher Hoy, Yong Suk Lee, Cassandra Merritt & Jacob Dominski",
       outlet: "IFS Working Paper",
@@ -321,6 +352,8 @@ const LAB = {
     },
     {
       id: "fighting-poverty",
+      image: "https://images.unsplash.com/photo-1533234944761-2f5337579079?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Benjamin Dada / Unsplash",
       title: "Attitudes toward poverty reduction programs around the world",
       authors: "Edward Bond, François Gerard, Christopher Hoy & Ben Waltmann",
       outlet: "Registered report, in progress",
@@ -336,6 +369,8 @@ const LAB = {
     },
     {
       id: "vat-exemptions",
+      image: "https://images.unsplash.com/photo-1770811903007-8ad4a19fb283?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Andrea Huls Pareja / Unsplash",
       title: "Informality, incidence and pass-through of VAT exemptions",
       authors: "Christopher Hoy, Matias Strehl-Pessina & Ruggero Doino",
       outlet: "Working paper",
@@ -349,6 +384,8 @@ const LAB = {
     },
     {
       id: "econ-reforms",
+      image: "https://images.unsplash.com/photo-1668964413130-ac4e56238aa2?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Ahmad Safwat / Unsplash",
       blogs: [
         { label: "World Bank Blogs", year: 2025, title: "Design, more than cost drives public support for economic reforms", url: "https://blogs.worldbank.org/en/developmenttalk/design--more-than-cost-drives-public-support-for-economic-reform" },
       ],
@@ -366,6 +403,8 @@ const LAB = {
     },
     {
       id: "simplified-tax",
+      image: "https://images.unsplash.com/photo-1602697245928-660ad8f886b6?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Lorenzo Cerato / Unsplash",
       title: "Trade-offs in the design of simplified tax regimes",
       authors: "Christopher Hoy, Thiago Scot, Alex Oguso, Anna Custers, Daniel Zalo, Ruggero Doino, Jonathan Karver & Nicolas Orgeira Pillai",
       outlet: "World Bank Policy Research Working Paper",
@@ -379,6 +418,8 @@ const LAB = {
     },
     {
       id: "slb-hfps",
+      image: "https://images.unsplash.com/photo-1715940093974-8836926f3f41?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "r0229 oke / Unsplash",
       title: "Solomon Islands High Frequency Phone Survey on COVID-19",
       authors: "World Bank & UNICEF",
       outlet: "World Bank & UNICEF report",
@@ -392,6 +433,8 @@ const LAB = {
     },
     {
       id: "tanzania-taxman",
+      image: "https://images.unsplash.com/photo-1589177900326-900782f88a55?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Peter Mitchell / Unsplash",
       title: "Lying to the taxman or accepting a helping hand? Evidence from a novel experiment on SMEs in Tanzania",
       authors: "Revocatus Paul, Ephraim Mdee, Massaga Fimbo, Jonathan Karver, Zain Chaudhry & Christopher Hoy",
       outlet: "World Bank Policy Research Working Paper",
@@ -405,6 +448,8 @@ const LAB = {
     },
     {
       id: "som-social-contract",
+      image: "https://images.unsplash.com/photo-1730714222751-eb1bbdea6f83?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Abdulkadir Hirabe / Unsplash",
       title: "Toward building Somalia\u2019s social contract: State affordability, revenue mobilization, and service delivery in a nascent federal state",
       authors: "World Bank",
       outlet: "World Bank report",
@@ -418,6 +463,8 @@ const LAB = {
     },
     {
       id: "polarization",
+      image: "https://images.unsplash.com/photo-1511898634545-c01af8a54dd5?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Alex Radelich / Unsplash",
       blogs: [
         { label: "The Conversation", year: 2026, title: "Real wages have gone backwards. Even earning $100,000 isn't what it used to be", url: "https://theconversation.com/real-wages-have-gone-backwards-even-earning-100-000-isnt-what-it-used-to-be-276169" },
         { label: "LSE Inequalities", year: 2025, title: "Revealing the wage gap makes far-right voters much more supportive of redistribution", url: "https://blogs.lse.ac.uk/inequalities/2025/10/08/far-right-voters-and-support-for-redistribution/" },
@@ -438,6 +485,8 @@ const LAB = {
     },
     {
       id: "indonesia-tax-evasion",
+      image: "https://images.unsplash.com/photo-1775783645855-8eed9eedaeda?auto=format&fit=crop&w=640&h=400&q=60",
+      imageCredit: "Diki Firmansyah / Unsplash",
       blogs: [
         { label: "Devpolicy Blog", year: 2024, title: "Revealing the depth and breadth of tax evasion in Indonesia", url: "https://devpolicy.org/revealing-the-depth-and-breadth-of-tax-evasion-in-indonesia-20241010/" },
         { label: "VoxDev", year: 2024, title: "Revealing tax evasion by firms", url: "https://voxdev.org/topic/public-economics/revealing-tax-evasion-firms" },

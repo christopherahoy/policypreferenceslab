@@ -299,3 +299,14 @@ footer .btn:hover{background:var(--ochre-h);color:#14262e;transform:translateY(-
 .card .c-find{font:600 17px/1.42 var(--body);color:var(--ink);margin:10px 0 10px}
 .card h3.c-sub{font:500 13.5px/1.45 var(--body);margin:0 0 6px}
 .card h3.c-sub a{color:#51636c}
+
+/* ---------------- publication thumbnails (v6) ---------------- */
+li.has-thumb{display:flex;gap:20px;align-items:flex-start}
+.pub-thumb{flex:0 0 200px}
+.pub-thumb img{width:100%;aspect-ratio:8/5;object-fit:cover;border-radius:10px;display:block;
+  border:1px solid var(--line);background:var(--paper2)}
+.pub-main{flex:1;min-width:0}
+@media (max-width:620px){
+  li.has-thumb{flex-direction:column;gap:12px}
+  .pub-thumb{flex:none;width:100%;max-width:340px}
+}

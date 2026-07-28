@@ -34,13 +34,20 @@
     const title = s.url
       ? '<a href="' + esc(s.url) + '">' + esc(s.title) + "</a>"
       : esc(s.title);
+    const thumb = s.image
+      ? '<div class="pub-thumb"><img loading="lazy" src="' + esc(s.image) + '" alt=""' +
+        (s.imageCredit ? ' title="' + esc(s.imageCredit) + '"' : "") + "></div>"
+      : "";
     return (
-      "<li>" +
+      '<li' + (s.image ? ' class="has-thumb"' : "") + ">" +
+      thumb +
+      '<div class="pub-main">' +
       '<div class="pub-title">' + title + "</div>" +
       '<div class="pub-authors">' + esc(s.authors) + "</div>" +
       '<div class="pub-outlet"><em>' + esc(s.outlet) + "</em> · " + s.year + "</div>" +
       blogrow(s) +
       ctags(s) +
+      "</div>" +
       "</li>"
     );
   }
