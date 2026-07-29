@@ -359,7 +359,7 @@ const LAB = {
       image: "https://images.unsplash.com/photo-1533234944761-2f5337579079?auto=format&fit=crop&w=640&h=400&q=60",
       imageCredit: "Benjamin Dada / Unsplash",
       title: "Attitudes toward poverty reduction programs around the world",
-      authors: "Edward Bond, François Gerard, Christopher Hoy & Ben Waltmann",
+      authors: "Edward Bond, François Gerard, Christopher Hoy, Jonathan Karver & Ben Waltmann",
       outlet: "Registered report, in progress",
       year: 2026,
       rank: 4,
@@ -407,6 +407,10 @@ const LAB = {
     },
     {
       id: "simplified-tax",
+      blogs: [
+        { label: "World Bank Blogs", year: 2024, title: "Design features of simplified tax regimes for small businesses in Sub-Saharan Africa", url: "https://blogs.worldbank.org/en/developmenttalk/design-features-of-simplified-tax-regimes-for-small-businesses-i" },
+        { label: "ICTD blog", year: 2024, title: "Design features of simplified tax regimes for small businesses in Sub-Saharan Africa", url: "https://www.ictd.ac/blog/design-features-of-simplified-tax-regimes-for-small-businesses-in-sub-saharan-africa/" },
+      ],
       image: "https://images.unsplash.com/photo-1602697245928-660ad8f886b6?auto=format&fit=crop&w=640&h=400&q=60",
       imageCredit: "Lorenzo Cerato / Unsplash",
       title: "Trade-offs in the design of simplified tax regimes",

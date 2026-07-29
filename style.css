@@ -322,3 +322,11 @@ li.has-thumb{display:flex;gap:20px;align-items:flex-start}
 .policy-callout p{font-size:15px;color:var(--mut);max-width:62ch;margin:0}
 .policy-callout .btn{flex:0 0 auto;white-space:nowrap}
 @media(max-width:760px){.policy-callout{flex-direction:column;align-items:flex-start;gap:18px}}
+
+/* ---------------- footer: collaborate actions ---------------- */
+.collab-actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 16px}
+.collab-actions a{font:600 11.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:#e8e4d8;border:1px solid rgba(232,228,216,.28);border-radius:99px;padding:11px 17px}
+.collab-actions a:hover{color:var(--ochre-h);border-color:var(--ochre-h)}
+.collab-mail{font-size:13.5px;color:#8fa39b}
+.collab-mail a{color:#e8e4d8;border-bottom:1px solid rgba(232,228,216,.3)}
