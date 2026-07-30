@@ -88,6 +88,13 @@
       metaParts.push(countriesLabel);
       const meta = '<div class="c-meta" title="' + esc(cnames.join(", ")) + '">' + esc(metaParts.join(" \u00b7 ")) + "</div>";
       const explore = "data.html" + (s.dataPreset ? "?preset=" + s.dataPreset : "#explorer");
+      const blogLinks = (s.blogs || []).map(function (b) {
+        return '<a href="' + esc(b.url) + '" title="' + esc(b.title) + '">' +
+          esc(b.label) + " (" + b.year + ")</a>";
+      }).join('<span class="pb-sep"> \u00b7 </span>');
+      const brow = blogLinks
+        ? '<div class="pub-blogs"><span class="pb-label">Blogs &amp; media</span>' + blogLinks + "</div>"
+        : "";
       const ctas = '<div class="c-ctas">' +
         '<a href="' + explore + '">Explore the data \u2192</a>' +
         (s.url ? '<a href="' + esc(s.url) + '">Read the paper \u2192</a>' : "") +
@@ -102,6 +109,7 @@
         '<h3 class="' + (s.finding ? "c-sub" : "") + '">' + title + "</h3>" +
                 '<div class="c-outlet"><em>' + esc(s.outlet) + "</em> · " + s.year + "</div>" +
         meta +
+        brow +
         ctas +
         "</article>"
       );
