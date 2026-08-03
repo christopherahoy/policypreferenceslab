@@ -24,6 +24,10 @@
 .case{background:#fff;border:1px solid var(--line);border-top:3px solid var(--ochre);border-radius:12px;
   padding:26px 28px;margin-bottom:18px;box-shadow:0 8px 20px rgba(20,42,51,.05)}
 .case h2{font:600 24px/1.2 var(--disp);margin:0 0 18px}
+.case-wrap{display:grid;grid-template-columns:210px minmax(0,1fr);gap:26px;align-items:stretch}
+.case-img img{width:100%;height:100%;min-height:210px;object-fit:cover;border-radius:10px;display:block;
+  border:1px solid var(--line);background:var(--paper2)}
+@media(max-width:760px){.case-wrap{grid-template-columns:1fr}.case-img img{height:160px;min-height:0;max-width:360px}}
 .case-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
 .case-grid .lbl{font:600 9.5px/1.4 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
 .case-grid p{font-size:14px;color:var(--mut);margin:0;line-height:1.65}
@@ -75,6 +79,9 @@
     <div class="wrap">
 
       <article class="case">
+        <div class="case-wrap">
+          <div class="case-img"><img loading="lazy" src="https://images.unsplash.com/photo-1668964413130-ac4e56238aa2?auto=format&fit=crop&w=640&h=400&q=60" alt="" title="Ahmad Safwat / Unsplash"></div>
+          <div>
         <h2>Making difficult economic reforms more acceptable</h2>
         <div class="case-grid">
           <div>
@@ -96,9 +103,14 @@
           </div>
         </div>
         <div class="case-cta"><a href="data.html?preset=reforms">Explore our reform research →</a></div>
+          </div>
+        </div>
       </article>
 
       <article class="case">
+        <div class="case-wrap">
+          <div class="case-img"><img loading="lazy" src="https://images.unsplash.com/photo-1532009877282-3340270e0529?auto=format&fit=crop&w=640&h=400&q=60" alt="" title="Sean Stratton / Unsplash"></div>
+          <div>
         <h2>Designing tax systems that people regard as fair</h2>
         <div class="case-grid">
           <div>
@@ -121,9 +133,14 @@
           </div>
         </div>
         <div class="case-cta"><a href="data.html?preset=equity">Explore our tax fairness research →</a></div>
+          </div>
+        </div>
       </article>
 
       <article class="case">
+        <div class="case-wrap">
+          <div class="case-img"><img loading="lazy" src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=640&h=400&q=60" alt="" title="Kelly Sikkema / Unsplash"></div>
+          <div>
         <h2>Strengthening tax morale through progressivity</h2>
         <div class="case-grid">
           <div>
@@ -146,9 +163,14 @@
           </div>
         </div>
         <div class="case-cta"><a href="data.html?preset=taxmorale">Explore our tax morale research →</a></div>
+          </div>
+        </div>
       </article>
 
       <article class="case">
+        <div class="case-wrap">
+          <div class="case-img"><img loading="lazy" src="https://images.unsplash.com/photo-1695561324569-5e47c76dc0a3?auto=format&fit=crop&w=640&h=400&q=60" alt="" title="Hans Eiskonen / Unsplash"></div>
+          <div>
         <h2>Building public support for subsidy reform</h2>
         <div class="case-grid">
           <div>
@@ -171,9 +193,14 @@
           </div>
         </div>
         <div class="case-cta"><a href="data.html?preset=subsidies">Explore our subsidy research →</a></div>
+          </div>
+        </div>
       </article>
 
       <article class="case">
+        <div class="case-wrap">
+          <div class="case-img"><img loading="lazy" src="https://images.unsplash.com/photo-1768822855306-543f47d239e5?auto=format&fit=crop&w=640&h=400&q=60" alt="" title="Zoshua Colah / Unsplash"></div>
+          <div>
         <h2>Communicating about inequality effectively</h2>
         <div class="case-grid">
           <div>
@@ -197,6 +224,8 @@
           </div>
         </div>
         <div class="case-cta"><a href="data.html?preset=redistribution">Explore our inequality research →</a></div>
+          </div>
+        </div>
       </article>
 
       <div class="bring">
