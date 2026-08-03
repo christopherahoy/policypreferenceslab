@@ -11,6 +11,17 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="cc89f436-8204-4c2c-a75c-7a14489e06b0"></script>
+  <script>
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || !window.umami) return;
+    if (a.protocol === 'mailto:') { umami.track('contact-click'); return; }
+    if (/^https?:/.test(a.href) && a.host !== location.host) {
+      umami.track('outbound-click', { url: a.href.split('?')[0].slice(0, 120) });
+    }
+  }, true);
+  </script>
 </head>
 <body>
 <header class="topbar">

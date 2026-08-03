@@ -89,6 +89,17 @@ details.builder-note[open] summary{margin-bottom:6px}
   </style>
   <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="cc89f436-8204-4c2c-a75c-7a14489e06b0"></script>
+  <script>
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || !window.umami) return;
+    if (a.protocol === 'mailto:') { umami.track('contact-click'); return; }
+    if (/^https?:/.test(a.href) && a.host !== location.host) {
+      umami.track('outbound-click', { url: a.href.split('?')[0].slice(0, 120) });
+    }
+  }, true);
+  </script>
 </head>
 <body>
 
@@ -369,7 +380,7 @@ const PPL_INDICATOR_MANIFEST = {"version":"2026-07-13-audit-prune","buildNote":"
     return subSel.value && subSel.value !== 'all' ? data.filter(function(r){ return r.group === subSel.value; }) : data;
   }
   window.pplRender = function(){ render(); };
-  window.pplPreset = function(study, view, measure, scroll) { if (scroll === undefined) scroll = true;
+  window.pplPreset = function(study, view, measure, scroll) { if (scroll === undefined) scroll = true; if (window.umami) umami.track('chart-view', { study: study });
     function pick(sel, text) { if (!text) return true; for (const o of sel.options) { if (o.textContent.trim() === text) { sel.value = o.value; sel.dispatchEvent(new Event('change')); return true; } } return false; }
     pick(els.dataset, study); setTimeout(function(){ pick(els.view, view); setTimeout(function(){ pick(els.measure, measure);
       if (scroll) document.querySelector('.builder-panel').scrollIntoView({behavior:'smooth', block:'start'}); }, 60); }, 60);
@@ -543,11 +554,12 @@ function renderBar(data, svg, w, h) {
   els.chart.addEventListener('change', render);
   els.reset.addEventListener('click', () => { els.dataset.value='all'; els.chart.value='auto'; refreshViews(); render(); });
   els.csv.addEventListener('click', () => {
+    if (window.umami) umami.track('download-csv', { file: activeDataFilename() });
     const data=currentRows();
     const cols=['dataset','study','view','measure','group','category','iso','value','unit','lower','upper','xValue','xUnit','n','weighted','weight','method','source','paperUrl'];
     download(activeDataFilename()+'.csv', cols.join(',')+'\n'+data.map(r=>cols.map(c=>csvEscape(r[c])).join(',')).join('\n'), 'text/csv');
   });
-  els.json.addEventListener('click', () => download(activeDataFilename()+'.json', JSON.stringify(currentRows(),null,2), 'application/json'));
+  els.json.addEventListener('click', () => { if (window.umami) umami.track('download-json', { file: activeDataFilename() }); download(activeDataFilename()+'.json', JSON.stringify(currentRows(),null,2), 'application/json'); });
   els.cite.addEventListener('click', async () => {
     const data=currentRows();
     const src = data[0] ? (byId[data[0].dataset] || {}) : {};
