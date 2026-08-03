@@ -559,7 +559,7 @@ function renderBar(data, svg, w, h) {
 
 
 window.addEventListener('resize', function(){ if (window.pplRender) window.pplRender(); });
-var PPL_PRESET_LINKS={subsidies:['Fossil fuel subsidies','Baseline conditional support by country','Supports subsidy reduction if savings fund schools, hospitals and roads'],taxmorale:['Tax morale and progressivity','Figure 3 treatment effects with confidence intervals',''],redistribution:['Redistribution across 10 countries','Income-rank misperceptions by country',''],equity:['Horizontal equity of taxation','Treatment effect by country (Figures D4\u2013D5)','Perceived unfairness index']};
+var PPL_PRESET_LINKS={reforms:['Economic reform design','Economic reform predicted probabilities','Strong opposition'],subsidies:['Fossil fuel subsidies','Baseline conditional support by country','Supports subsidy reduction if savings fund schools, hospitals and roads'],taxmorale:['Tax morale and progressivity','Figure 3 treatment effects with confidence intervals',''],redistribution:['Redistribution across 10 countries','Income-rank misperceptions by country',''],equity:['Horizontal equity of taxation','Treatment effect by country (Figures D4\u2013D5)','Perceived unfairness index']};
 setTimeout(function(){ if (!window.pplPreset) return; var pr=null; try{ pr=new URLSearchParams(location.search).get('preset'); }catch(e){} var t=pr&&PPL_PRESET_LINKS[pr]; if(t){ pplPreset(t[0],t[1],t[2],true); } else { pplPreset('Fossil fuel subsidies','Baseline conditional support by country','Supports subsidy reduction if savings fund schools, hospitals and roads', false); } }, 120);
 </script>
 <script src="data.js"></script>
