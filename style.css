@@ -330,3 +330,8 @@ li.has-thumb{display:flex;gap:20px;align-items:flex-start}
 .collab-actions a:hover{color:var(--ochre-h);border-color:var(--ochre-h)}
 .collab-mail{font-size:13.5px;color:#8fa39b}
 .collab-mail a{color:#e8e4d8;border-bottom:1px solid rgba(232,228,216,.3)}
+
+/* ---------------- homepage: full-width founder card ---------------- */
+.founder-grid{display:grid;grid-template-columns:290px minmax(0,1fr);gap:10px 44px;align-items:start}
+.founder-grid p{max-width:72ch}
+@media(max-width:760px){.founder-grid{grid-template-columns:1fr}}

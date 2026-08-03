@@ -25,8 +25,13 @@
 .rn-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--ochre);border-radius:12px;
   padding:17px 18px;box-shadow:0 8px 20px rgba(20,42,51,.05)}
 .rn-card .rn-name{font:600 18px/1.25 var(--disp);color:var(--ink)}
+.rn-card .rn-name a{color:var(--ink);border-bottom:1px solid transparent}
+.rn-card .rn-name a:hover{color:var(--teal);border-bottom-color:rgba(22,112,127,.35)}
 .rn-card .rn-inst{font:500 12.5px/1.45 var(--body);color:var(--mut);margin-top:6px}
 .rn-note{font-size:13px;color:var(--faint);margin-top:26px;max-width:70ch}
+.rn-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.rn-tag{font:500 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--teal);
+  border:1px solid rgba(22,112,127,.25);border-radius:99px;padding:4px 9px}
 .rn-founder{margin-top:46px}
 .rn-founder-grid{display:grid;grid-template-columns:290px minmax(0,1fr);gap:10px 44px;align-items:start}
 .rn-founder-grid p{max-width:72ch}
@@ -43,7 +48,7 @@
     <nav class="mainnav" aria-label="Main">
       <a href="index.html#about">About</a>
       <a href="evidence-to-policy.html">Policy insights</a>
-      <a href="data.html">Explore the data</a>
+      <a href="data.html">Findings &amp; Data</a>
       <a href="research.html">Publications</a>
       <a href="research-network.html" class="current">Research Network</a>
       <a class="navbtn" href="#contact">Collaborate with us</a>
@@ -64,30 +69,30 @@
   <section style="padding:10px 0 70px">
     <div class="wrap">
       <div class="rn-grid">
-        <div class="rn-card"><div class="rn-name">Assoc. Prof. Anders Jensen</div><div class="rn-inst">Harvard University</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Ben Waltmann</div><div class="rn-inst">Institute for Fiscal Studies</div></div>
-        <div class="rn-card"><div class="rn-name">Assoc. Prof. Benoit Decerf</div><div class="rn-inst">University of Namur</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Cassandra Merritt</div><div class="rn-inst">University of Notre Dame</div></div>
-        <div class="rn-card"><div class="rn-name">Prof. Catherine Eckel</div><div class="rn-inst">Texas A&amp;M University</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Diana Contreras Suárez</div><div class="rn-inst">University of Melbourne</div></div>
-        <div class="rn-card"><div class="rn-name">Edward Bond</div><div class="rn-inst">TaxDev (Institute for Fiscal Studies, ODI Global)</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Filip Jolevski</div><div class="rn-inst">World Bank ECA Chief Economist&#x27;s Office</div></div>
-        <div class="rn-card"><div class="rn-name">Prof. François Gerard</div><div class="rn-inst">University College London</div></div>
-        <div class="rn-card"><div class="rn-name">Jacob Dominski</div><div class="rn-inst">University of Maryland</div></div>
-        <div class="rn-card"><div class="rn-name">Kingtau Mambon</div><div class="rn-inst">University of Papua New Guinea</div></div>
-        <div class="rn-card"><div class="rn-name">Prof. Lisa Cameron</div><div class="rn-inst">University of Melbourne</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Mahvish Shaukat</div><div class="rn-inst">World Bank Research Group</div></div>
-        <div class="rn-card"><div class="rn-name">Prof. Mathias Sinning</div><div class="rn-inst">University of International Business and Economics (Beijing)</div></div>
-        <div class="rn-card"><div class="rn-name">Matias Strehl-Pessina</div><div class="rn-inst">University of California, Santa Barbara</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Nurina Merdikawati</div><div class="rn-inst">Australian National University Indonesia Project</div></div>
-        <div class="rn-card"><div class="rn-name">Assoc. Prof. Olivier Sterck</div><div class="rn-inst">University of Antwerp, Oxford University</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Pierre Bachas</div><div class="rn-inst">World Bank Research Group, Paris School of Economics</div></div>
-        <div class="rn-card"><div class="rn-name">Revocatus Paul</div><div class="rn-inst">University of Cape Town</div></div>
-        <div class="rn-card"><div class="rn-name">Ruggero Doino</div><div class="rn-inst">Sciences Po, World Bank</div></div>
-        <div class="rn-card"><div class="rn-name">Assoc. Prof. Russell Toth</div><div class="rn-inst">University of Sydney</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Saad Imtiaz</div><div class="rn-inst">Lahore University of Management Sciences</div></div>
-        <div class="rn-card"><div class="rn-name">Dr. Terence Wood</div><div class="rn-inst">Development Policy Centre, Australian National University</div></div>
-        <div class="rn-card"><div class="rn-name">Assoc. Prof. Yong Suk Lee</div><div class="rn-inst">University of Notre Dame</div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://www.andersditlevjensen.com/">Assoc. Prof. Anders Jensen</a></div><div class="rn-inst">Harvard University</div><div class="rn-tags"><span class="rn-tag">Taxes</span><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://sites.google.com/view/benwaltmann/home">Dr. Ben Waltmann</a></div><div class="rn-inst">Institute for Fiscal Studies</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://www.unamur.be/en/profil/bdecerf">Assoc. Prof. Benoit Decerf</a></div><div class="rn-inst">University of Namur</div><div class="rn-tags"><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://www.cassandramerritt.com/">Dr. Cassandra Merritt</a></div><div class="rn-inst">University of Notre Dame</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://sites.google.com/site/eckelcatherine/">Prof. Catherine Eckel</a></div><div class="rn-inst">Texas A&amp;M University</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://sites.google.com/site/dianacontreras1/">Dr. Diana Contreras Suárez</a></div><div class="rn-inst">University of Melbourne</div><div class="rn-tags"><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://ifs.org.uk/people/edward-bond">Edward Bond</a></div><div class="rn-inst">TaxDev (Institute for Fiscal Studies, ODI Global)</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://blogs.worldbank.org/en/team/f/filip-jolevski">Dr. Filip Jolevski</a></div><div class="rn-inst">World Bank ECA Chief Economist&#x27;s Office</div><div class="rn-tags"><span class="rn-tag">Taxes</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://sites.google.com/site/fransgerard/home">Prof. François Gerard</a></div><div class="rn-inst">University College London</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://ethics.nd.edu/people/jacob-dominski/">Jacob Dominski</a></div><div class="rn-inst">University of Maryland</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://devpolicy.org/author/kingtau-mambon/">Kingtau Mambon</a></div><div class="rn-inst">University of Papua New Guinea</div><div class="rn-tags"><span class="rn-tag">Taxes</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://sites.google.com/view/lisa-a-cameron/home">Prof. Lisa Cameron</a></div><div class="rn-inst">University of Melbourne</div><div class="rn-tags"><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://www.worldbank.org/en/about/people/m/mahvish-shaukat">Dr. Mahvish Shaukat</a></div><div class="rn-inst">World Bank Research Group</div><div class="rn-tags"><span class="rn-tag">Taxes</span><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://www.mathiassinning.com/">Prof. Mathias Sinning</a></div><div class="rn-inst">University of International Business and Economics (Beijing)</div><div class="rn-tags"><span class="rn-tag">Taxes</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://econ.ucsb.edu/people/students/matias-strehl-pessina">Matias Strehl-Pessina</a></div><div class="rn-inst">University of California, Santa Barbara</div><div class="rn-tags"><span class="rn-tag">Taxes</span><span class="rn-tag">Subsidies</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://crawford.anu.edu.au/people/nurina-merdikawati">Dr. Nurina Merdikawati</a></div><div class="rn-inst">Australian National University Indonesia Project</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://oliviersterck.wordpress.com/">Assoc. Prof. Olivier Sterck</a></div><div class="rn-inst">University of Antwerp, Oxford University</div><div class="rn-tags"><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://pierrebachas.weebly.com/">Dr. Pierre Bachas</a></div><div class="rn-inst">World Bank Research Group, Paris School of Economics</div><div class="rn-tags"><span class="rn-tag">Taxes</span><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://www.linkedin.com/in/revocatus-paul-42a998159/">Revocatus Paul</a></div><div class="rn-inst">University of Cape Town</div><div class="rn-tags"><span class="rn-tag">Taxes</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://blogs.worldbank.org/en/team/r/ruggero-doino">Ruggero Doino</a></div><div class="rn-inst">Sciences Po, World Bank</div><div class="rn-tags"><span class="rn-tag">Taxes</span><span class="rn-tag">Subsidies</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://sites.google.com/cornell.edu/russell-toth/russell-toth-development-economist/">Assoc. Prof. Russell Toth</a></div><div class="rn-inst">University of Sydney</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://lums.edu.pk/lums_employee/7483">Dr. Saad Imtiaz</a></div><div class="rn-inst">Lahore University of Management Sciences</div><div class="rn-tags"><span class="rn-tag">Taxes</span><span class="rn-tag">Subsidies</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://devpolicy.crawford.anu.edu.au/people/academic/terence-wood">Dr. Terence Wood</a></div><div class="rn-inst">Development Policy Centre, Australian National University</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span><span class="rn-tag">Poverty &amp; wellbeing</span></div></div>
+        <div class="rn-card"><div class="rn-name"><a href="https://keough.nd.edu/about/faculty-staff-directory/yongsuk-lee/">Assoc. Prof. Yong Suk Lee</a></div><div class="rn-inst">University of Notre Dame</div><div class="rn-tags"><span class="rn-tag">Redistribution &amp; inequality</span></div></div>
       </div>
 
       <div class="personcard rn-founder">
@@ -100,8 +105,7 @@
             <p>Christopher Hoy is an applied microeconomist specializing in measuring and
               understanding people&rsquo;s beliefs and preferences about economic policies. His
               research has been published in leading journals, including the <em>American
-              Economic Journal: Economic Policy</em>, featured in top media
-              outlets, such as the New York Times, the Economist, and the BBC, and cited around
+              Economic Journal: Economic Policy</em>, featured by The New York Times, The Economist and the BBC, and cited around
               <a href="https://scholar.google.com/citations?user=e4SywE4AAAAJ&amp;hl=en">2,500 times</a>.</p>
             <div class="p-links">
               <a href="https://chrishoyeconomist.com/">Personal site</a>
@@ -125,12 +129,12 @@
           partner with the Lab to design surveys, test alternative policy reforms, or translate
           evidence into policy briefings.</p>
         <div class="collab-actions">
-          <a href="mailto:christopher.hoy@unimelb.edu.au?subject=Partner%20on%20a%20study">Partner on a study</a>
-          <a href="mailto:christopher.hoy@unimelb.edu.au?subject=Request%20a%20meeting">Request a meeting</a>
-          <a href="mailto:christopher.hoy@unimelb.edu.au?subject=Suggested%20topic%20for%20the%20Policy%20Preferences%20Lab">Suggest a topic</a>
+          <a href="mailto:contact@policypreferenceslab.org?subject=Partner%20on%20a%20study">Partner on a study</a>
+          <a href="mailto:contact@policypreferenceslab.org?subject=Discuss%20a%20policy%20question">Discuss a policy question</a>
+          <a href="mailto:contact@policypreferenceslab.org?subject=Propose%20a%20study">Propose a study</a>
         </div>
         <p class="collab-mail">Or write directly:
-          <a href="mailto:christopher.hoy@unimelb.edu.au">christopher.hoy@unimelb.edu.au</a></p>
+          <a href="mailto:contact@policypreferenceslab.org">contact@policypreferenceslab.org</a></p>
       </div>
     </div>
     <div class="footnote">
